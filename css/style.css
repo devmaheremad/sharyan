@@ -190,6 +190,72 @@ bdi, [dir="ltr"] { unicode-bidi: isolate; }
   transform-origin: 100% 50%; transform: scaleX(0);
 }
 
+/* ---------- private welcome note (only with ?for=aboud) ---------- */
+.welcome {
+  position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 20px;
+  background: rgba(5,5,5,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity .45s var(--ease-out);
+}
+.welcome[hidden] { display: none; }
+.welcome.is-open { opacity: 1; }
+.welcome.is-closing { opacity: 0; transition-duration: .4s; }
+.welcome__card {
+  position: relative; width: min(520px, 100%); max-height: calc(100svh - 40px); overflow: auto;
+  padding: clamp(24px, 4vw, 38px) clamp(22px, 4vw, 40px) clamp(20px, 3vw, 28px);
+  background: var(--cream); color: #1d160a; border-radius: 4px; box-shadow: 0 40px 90px rgba(0,0,0,.6);
+  transform: translateY(26px) scale(.97); transition: transform .7s var(--ease-out);
+}
+.welcome.is-open .welcome__card { transform: none; }
+.welcome__card::before {
+  content: ""; position: absolute; top: 0; right: 0; left: 0; height: 3px; transform-origin: 100% 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--gold-lo), var(--gold-hi), var(--gold));
+  transition: transform 1.1s .25s var(--ease-out);
+}
+.welcome.is-open .welcome__card::before { transform: none; }
+.welcome__kicker { margin: 0 0 10px; font-size: 12px; font-weight: 800; color: #8c6a26; letter-spacing: .02em; }
+.welcome__kicker span { font: 400 11px/1 var(--f-mono); letter-spacing: .2em; }
+.welcome__title { margin: 0 0 14px; font: 800 clamp(24px, 3.2vw, 32px)/1.3 var(--f-display); }
+.welcome__nw { white-space: nowrap; }
+.welcome__text p { margin: 0 0 10px; font-size: 16px; line-height: 1.75; font-weight: 600; color: #3a2f1a; }
+.welcome__steps { margin: 16px 0 22px; padding: 0; list-style: none; display: grid; gap: 9px; counter-reset: step; }
+.welcome__steps li { counter-increment: step; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; }
+.welcome__steps li::before {
+  content: counter(step); flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ink); color: var(--gold-hi); font: 400 13px/1 var(--f-mono);
+}
+.welcome__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.welcome__go {
+  display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; border: 0; border-radius: 2px; cursor: pointer;
+  background: var(--ink); color: var(--gold-hi); font: 800 16px/1 var(--f-ar);
+  box-shadow: 0 0 0 0 rgba(212,169,79,.55); animation: welcome-pulse 2.2s 1s infinite;
+  transition: background-color .25s, color .25s, transform .25s var(--ease-out);
+}
+.welcome__go:hover { background: var(--gold); color: var(--ink); transform: translateY(-1px); }
+.welcome__go:focus-visible, .welcome__skip:focus-visible { outline: 2px solid var(--gold-lo); outline-offset: 3px; }
+.welcome__skip {
+  padding: 6px 0; background: none; border: 0; cursor: pointer;
+  font: 700 14px/1.4 var(--f-ar); color: #6d5a2c; text-decoration: underline; text-underline-offset: 3px;
+}
+.welcome__skip:hover { color: #1d160a; }
+.welcome__sign {
+  display: flex; align-items: center; gap: 12px; margin: 22px 0 0; padding-top: 16px;
+  border-top: 1px solid rgba(29,22,10,.14); font-size: 14px; color: #5b4a26;
+}
+.welcome__sign b { color: #1d160a; }
+.welcome__mono {
+  display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--ink); color: var(--gold-hi); font: 400 14px/1 var(--f-en); letter-spacing: .08em;
+}
+@keyframes welcome-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(212,169,79,.55); }
+  70% { box-shadow: 0 0 0 14px rgba(212,169,79,0); }
+  100% { box-shadow: 0 0 0 0 rgba(212,169,79,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .welcome, .welcome__card, .welcome__card::before { transition: none; }
+  .welcome__go { animation: none; }
+}
+
 /* ---------- crosshair (desktop) ---------- */
 .crosshair { position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0; transition: opacity .3s; }
 .crosshair.is-on { opacity: 1; }

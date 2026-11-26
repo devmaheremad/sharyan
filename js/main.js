@@ -12,6 +12,7 @@ import { initCrew } from './crew.js';
 import { initStatements, initLife, initGauges, initTower, initWall } from './sections.js';
 import { initServices, initQuotes, initOutro, initVoices, initReels } from './sections2.js';
 import { initClock, initSoundUI, initMotionCard, initProgress, initCrosshair } from './hud.js';
+import { wantsWelcome, showWelcome } from './welcome.js';
 
 const { gsap, ScrollTrigger, Lenis } = window;
 let lenis = null;
@@ -94,15 +95,19 @@ function start() {
   runIntro({
     motion,
     onDone: () => {
-      if (motion) {
-        gsap.set('.hero__content, .hero__photo', { opacity: 1 });
-        heroIntro();
-        if (lenis) lenis.start();
-        ScrollTrigger.refresh();
-        if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
-      }
-      if (heroChart) heroChart.start();
-      setTimeout(() => { soundUI.afterIntro(); motionCard.afterIntro(); }, motion ? 900 : 200);
+      const reveal = () => {
+        if (motion) {
+          gsap.set('.hero__content, .hero__photo', { opacity: 1 });
+          heroIntro();
+          if (lenis) lenis.start();
+          ScrollTrigger.refresh();
+          if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
+        }
+        if (heroChart) heroChart.start();
+        setTimeout(() => { soundUI.afterIntro(); motionCard.afterIntro(); }, motion ? 900 : 200);
+      };
+      // the private link (?for=aboud) opens on a short welcome note before the hero
+      if (wantsWelcome()) showWelcome({ onClose: reveal }); else reveal();
     },
   });
 }
