@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://cdn.shopify.com data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف. | تصوّر غير رسمي</title>
+  <meta name="description" content="تصوّر غير رسمي لموقع عن متداول الذهب عبود الشريان: طريقة الخط والكسر، البث المباشر المجاني، التدريب الشخصي، والأرقام كما هي على صفحاته العامة.">
+  <!-- Unofficial concept made for Aboud Al-Sharyan: keep it out of search results. -->
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#050505">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_AR">
+  <meta property="og:site_name" content="SHARYAN — Concept">
+  <meta property="og:title" content="عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف.">
+  <meta property="og:description" content="Legally Printing With The Bo$$ — تصوّر موقع سينمائي بالصوت والحركة، مبني على طريقة عبود بالتداول.">
+  <meta property="og:image" content="https://devmaheremad.github.io/sharyan/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="خط ذهبي ينكسر وفوقه اسم عبود الشريان">
+  <meta property="og:url" content="https://devmaheremad.github.io/sharyan/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://devmaheremad.github.io/sharyan/">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preload" href="fonts/cairo-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/anton-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://cdn.shopify.com">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><link rel="stylesheet" href="css/noscript.css"></noscript>
+</head>
+<body class="is-locked">
+  <a class="skip" href="#main">تخطَّ للمحتوى</a>
+
+  <!-- ===== Gate: the site opens by breaking a line ===== -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="gate__half gate__half--top"></div>
+    <div class="gate__half gate__half--bottom"></div>
+    <div class="gate__line" aria-hidden="true">
+      <span class="gate__price" dir="ltr">XAUUSD · M1 · 3870.00</span>
+    </div>
+    <div class="gate__inner gate__inner--top">
+      <p class="gate__eyebrow" dir="ltr">SHARYAN · CONCEPT</p>
+      <h2 class="gate__title" id="gate-title">
+        <span>السعر واقف على الخط.</span>
+        <span>شمعة وحدة بتسكّر… وبيطير.</span>
+      </h2>
+    </div>
+    <div class="gate__inner gate__inner--bottom">
+      <div class="gate__actions">
+        <button class="btn btn--gold" id="enter-sound" type="button">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+          ادخل مع الصوت
+        </button>
+        <button class="btn btn--ghost" id="enter-mute" type="button">بدون صوت</button>
+      </div>
+      <p class="gate__hint">السماعات بتفرق 🎧</p>
+      <p class="gate__motion" id="gate-motion">جهازك مضبوط على «حركة أقل»، وهالموقع مبني على الحركة.
+        <button type="button" id="motion-toggle" aria-pressed="false">شغّل الحركة الكاملة</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- ===== HUD ===== -->
+  <header class="hud" aria-label="شريط الموقع">
+    <a class="hud__brand" href="#top" aria-label="إلى الأعلى">
+      <span class="hud__word" dir="ltr">SHARYAN</span>
+      <span class="hud__badge">تصوّر غير رسمي</span>
+    </a>
+    <div class="hud__clock" aria-live="off">
+      <span class="hud__ny" dir="ltr"><b>NY</b> <span id="ny-time">--:--:--</span></span>
+      <span class="hud__open" id="ny-open">…</span>
+    </div>
+    <button class="hud__sound" id="sound-toggle" type="button" aria-pressed="false" aria-label="تشغيل الصوت">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="hud__sound-label">الصوت</span>
+    </button>
+    <div class="hud__progress" aria-hidden="true"><span id="progress-fill"></span></div>
+  </header>
+
+  <div class="crosshair" aria-hidden="true">
+    <span class="crosshair__h"></span>
+    <span class="crosshair__tag" dir="ltr">0000.00</span>
+  </div>
+
+  <main id="main">
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <canvas class="hero__chart" id="hero-chart" aria-hidden="true"></canvas>
+      <figure class="hero__photo">
+        <img id="hero-img"
+             src="https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=1400"
+             srcset="https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=900 900w,
+                     https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=1400 1400w,
+                     https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=2000 2000w"
+             sizes="(max-width: 800px) 100vw, 55vw"
+             width="1400" height="788" fetchpriority="high" decoding="async"
+             alt="عبود الشريان في الاستوديو — من صفحة sharyan.io">
+        <figcaption class="visually-hidden">الصورة من موقعه sharyan.io</figcaption>
+      </figure>
+      <div class="hero__content">
+        <p class="eyebrow"><span dir="ltr">XAUUSD</span> · متداول ذهب · افتتاح نيويورك</p>
+        <h1 class="hero__title" id="hero-title">
+          <span class="word">عبود</span>
+          <span class="word word--gold">الشريان</span>
+        </h1>
+        <p class="hero__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span class="gold">$$</span></p>
+        <p class="hero__lede">خط واحد. شمعة دقيقة بتسكّر وراه. وثلاث أهداف — بسرعة الصقر.</p>
+        <ul class="hero__chips">
+          <li><b dir="ltr">56,044</b> مشترك بقناة التلغرام</li>
+          <li><b dir="ltr">3,000+</b> متداول بالبث كل يوم</li>
+        </ul>
+        <div class="hero__cta">
+          <a class="btn btn--gold" href="#method">شوف الطريقة</a>
+          <a class="btn btn--ghost" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span>مرّر</span><i></i></div>
+    </section>
+
+    <!-- ===== 01 METHOD (pinned, scrubbed) ===== -->
+    <section class="method" id="method" aria-labelledby="method-title">
+      <div class="method__stage">
+        <header class="section-head section-head--abs">
+          <p class="section-head__no" dir="ltr">01</p>
+          <h2 class="section-head__title" id="method-title">الطريقة</h2>
+        </header>
+
+        <svg class="method__svg" id="method-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="method-svg-title">
+          <title id="method-svg-title">رسم متحرك: خط المستوى 3870، شمعة دقيقة تسكّر فوقه، والسعر يصل للأهداف الثلاثة</title>
+          <defs>
+            <linearGradient id="g-gold" gradientUnits="userSpaceOnUse" x1="0" x2="1600" y1="0" y2="0">
+              <stop offset="0" stop-color="#8c6a26"/>
+              <stop offset=".5" stop-color="#f1d488"/>
+              <stop offset="1" stop-color="#d4a94f"/>
+            </linearGradient>
+            <linearGradient id="g-trail" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stop-color="#d4a94f" stop-opacity="0"/>
+              <stop offset="1" stop-color="#f1d488" stop-opacity=".9"/>
+            </linearGradient>
+            <pattern id="checker" width="16" height="16" patternUnits="userSpaceOnUse">
+              <rect width="16" height="16" fill="#f4f1ea"/>
+              <rect width="8" height="8" fill="#050505"/>
+              <rect x="8" y="8" width="8" height="8" fill="#050505"/>
+            </pattern>
+          </defs>
+          <g class="m-grid" id="m-grid"></g>
+          <g id="m-targets"></g>
+          <g id="m-stop"></g>
+          <g id="m-candles"></g>
+          <g id="m-level"></g>
+          <path id="m-run" class="m-run" d=""/>
+          <g id="m-wick-mark"></g>
+          <g id="m-break"></g>
+          <g id="m-car" class="m-car"></g>
+          <g id="m-falcon" class="m-falcon"></g>
+          <g id="m-flag"></g>
+        </svg>
+
+        <ol class="method__captions" id="method-captions">
+          <li data-beat="0"><b>خط واحد.</b><span>مع افتتاح نيويورك، عبود بيعلن مستوى واحد واتجاه واحد. هون: شراء فوق <bdi>3870.00</bdi>.</span></li>
+          <li data-beat="1"><b>السعر بيقرّب…</b><span>بيلمس الخط، بيجرّب، بيضغط. ولسا ما في دخول.</span></li>
+          <li data-beat="2"><b>الذيل ما بيحسب.</b><span>اللمسة مش كسر. الدخول بس على <em>إغلاق</em> شمعة الدقيقة.</span></li>
+          <li data-beat="3"><b>كسر.</b><span>شمعة الدقيقة سكّرت فوق الخط — هون الدخول، بدقة الصقر.</span></li>
+          <li data-beat="4"><b>الهدف الأول — أمّن الكل.</b><span><bdi>3875.00</bdi> · نص الصفقة بره، والستوب على الدخول.</span></li>
+          <li data-beat="5"><b>الهدف الثاني.</b><span><bdi>3879.00</bdi> · والسيارة لسا بأول غيار.</span></li>
+          <li data-beat="6"><b>الهدف الثالث.</b><span><bdi>3882.00</bdi> · خط النهاية.</span></li>
+        </ol>
+
+        <div class="method__summary" id="method-summary">
+          <p class="method__summary-date">١٧ نوفمبر ٢٠٢٦ · من البث</p>
+          <p class="method__summary-line"><span>شراء فوق</span> <bdi>3870.00</bdi></p>
+          <ul class="tp-row" aria-label="الأهداف">
+            <li class="is-hit">TP1 <bdi>3875</bdi></li>
+            <li class="is-hit">TP2 <bdi>3879</bdi></li>
+            <li class="is-hit">TP3 <bdi>3882</bdi></li>
+          </ul>
+          <p class="method__summary-note">خط واحد · كسر واحد · ثلاث أهداف</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 02 WHO ===== -->
+    <section class="who" id="who" aria-labelledby="who-title">
+      <header class="section-head">
+        <p class="section-head__no" dir="ltr">02</p>
+        <h2 class="section-head__title" id="who-title">مين عبود الشريان</h2>
+      </header>
+      <div class="statements">
+        <p class="statement" data-split>متداول ذهب. <span class="gold">بس ذهب.</span></p>
+        <p class="statement" data-split>كل يوم مع افتتاح نيويورك: بث مباشر مجاني — <span class="gold">بدون أي شروط.</span></p>
+        <p class="statement" data-split>أكثر من <bdi class="gold">3,000</bdi> متداول بيدخلوا البث كل يوم.</p>
+        <p class="statement" data-split>وبيعلّم نفس الأسلوب، مباشرة، مع <span class="gold">متابعة 12 شهر.</span></p>
+      </div>
+
+      <div class="life" id="life">
+        <div class="life__head">
+          <h3 class="life__title">طريقة عيشه</h3>
+          <p class="life__src">من حسابه على إنستغرام <a href="https://www.instagram.com/sshryyan/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a></p>
+        </div>
+        <div class="life__track" id="life-track">
+          <article class="life-card">
+            <p class="life-card__no" dir="ltr">01 / DUBAI</p>
+            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-dubai"/></svg>
+            <h4>الاستوديو على خط الأفق</h4>
+            <p>شاشات، كاميرا، وبرج خليفة بالشباك. من هون بيطلع البث.</p>
+          </article>
+          <article class="life-card">
+            <p class="life-card__no" dir="ltr">02 / FIRST CLASS</p>
+            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-plane"/></svg>
+            <h4>الطيارة مكتب تاني</h4>
+            <p>السوق ما بيستنى، والمستوى بينحط من أي مكان.</p>
+          </article>
+          <article class="life-card">
+            <p class="life-card__no" dir="ltr">03 / HORSEPOWER</p>
+            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-car"/></svg>
+            <h4>عاشق السيارات</h4>
+            <p>الرمل حلبة، والمحرك موسيقى. نفس شعور الكسر.</p>
+          </article>
+          <article class="life-card">
+            <p class="life-card__no" dir="ltr">04 / OFF THE CHART</p>
+            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-peaks"/></svg>
+            <h4>بين الجبل والبحر</h4>
+            <p>ثلج بمكان، وجرف على البحر بمكان تاني. الشارت مسكّر.</p>
+          </article>
+          <article class="life-card">
+            <p class="life-card__no" dir="ltr">05 / DISCIPLINE</p>
+            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-gym"/></svg>
+            <h4>الانضباط بيبدأ من الجسم</h4>
+            <p>نفس قاعدة الستوب: التزام، مش مزاج.</p>
+          </article>
+          <article class="life-card life-card--faith">
+            <p class="life-card__no" dir="ltr">06 / FAITH</p>
+            <p class="life-card__quote" dir="ltr">Faith over everything.</p>
+            <h4>الإيمان قبل كل شي</h4>
+            <p>أول سطر ببروفايله، وآخر كلمة بهالموقع.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 03 NUMBERS (tachometers) ===== -->
+    <section class="numbers" id="numbers" aria-labelledby="numbers-title">
+      <header class="section-head">
+        <p class="section-head__no" dir="ltr">03</p>
+        <h2 class="section-head__title" id="numbers-title">عدّاد الجمهور</h2>
+      </header>
+      <div class="gauges">
+        <figure class="gauge" data-value="56044" data-max="60000" data-format="int">
+          <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
+          <figcaption><b class="gauge__num" dir="ltr">56,044</b><span>مشترك بقناة التلغرام</span><small dir="ltr">t.me/aboudalsharyan</small></figcaption>
+        </figure>
+        <figure class="gauge" data-value="62500" data-max="70000" data-format="k">
+          <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
+          <figcaption><b class="gauge__num" dir="ltr">62.5K</b><span>متابع على إنستغرام</span><small dir="ltr">@sshryyan · verified</small></figcaption>
+        </figure>
+        <figure class="gauge" data-value="3000" data-max="3600" data-format="plus">
+          <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
+          <figcaption><b class="gauge__num" dir="ltr">3,000+</b><span>متداول بالبث كل يوم</span><small dir="ltr">sharyan.io</small></figcaption>
+        </figure>
+        <figure class="gauge" data-value="3094" data-max="3600" data-format="int">
+          <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
+          <figcaption><b class="gauge__num" dir="ltr">3,094</b><span>مشترك بـ Sharyan Funded</span><small dir="ltr">t.me/SharyanFunded</small></figcaption>
+        </figure>
+      </div>
+      <p class="numbers__total"><bdi class="gold">121K+</bdi> متابعة على منصاته الثلاث</p>
+      <p class="source-note">الأرقام كما ظهرت على صفحاته العامة بتاريخ ٢٦ نوفمبر ٢٠٢٦. رقم البث من sharyan.io.</p>
+    </section>
+
+    <!-- ===== 04 TRADES ===== -->
+    <section class="trades" id="trades" aria-labelledby="trades-title">
+      <header class="section-head">
+        <p class="section-head__no" dir="ltr">04</p>
+        <h2 class="section-head__title" id="trades-title">التداولات</h2>
+      </header>
+      <p class="trades__lede">سبع جلسات. سبع خطوط. <span class="gold">سبع كسرات.</span></p>
+
+      <div class="tower" role="table" aria-label="مستويات من البث، ١٧–٢٥ نوفمبر ٢٠٢٦">
+        <div class="tower__row tower__row--head" role="row">
+          <span role="columnheader">اليوم</span>
+          <span role="columnheader">الاتجاه</span>
+          <span role="columnheader">المستوى</span>
+          <span role="columnheader">الكسر <small dir="ltr">NY</small></span>
+          <span role="columnheader">الأهداف</span>
+        </div>
+        <div id="tower-body" role="rowgroup"></div>
+      </div>
+      <p class="source-note">مستويات أعلنها عبود بالبث ورصدها ماهر يوم بيوم (١٧–٢٥ نوفمبر ٢٠٢٦). رصد شخصي للتوضيح — مش توصية ولا وعد بربح.</p>
+
+      <div class="wall" id="wall">
+        <div class="wall__head">
+          <h3 class="wall__title">من قلب القناة</h3>
+          <p class="wall__src">نتائج متابعين محوّلة لقناته، زي ما نشرها على <a href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a></p>
+        </div>
+        <div class="wall__rows" id="wall-rows"></div>
+      </div>
+    </section>
+
+    <!-- ===== 05 SERVICES (gear shifter) ===== -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <header class="section-head">
+        <p class="section-head__no" dir="ltr">05</p>
+        <h2 class="section-head__title" id="services-title">بدّل الغيار</h2>
+      </header>
+      <div class="shifter">
+        <div class="shifter__box">
+          <svg class="shifter__gate" viewBox="0 -6 220 252" aria-hidden="true">
+            <path d="M40 40 V200 M110 40 V200 M180 40 V120 M40 120 H180" />
+            <text x="40" y="12">1</text><text x="40" y="238">2</text>
+            <text x="110" y="12">3</text><text x="110" y="238">4</text>
+            <text x="180" y="12">5</text>
+            <circle class="shifter__knob" id="shifter-knob" cx="40" cy="40" r="18"/>
+          </svg>
+          <div class="shifter__buttons" role="tablist" aria-label="الخدمات">
+            <button role="tab" id="tab-1" aria-controls="gear-1" aria-selected="true" data-gear="1" type="button"><b dir="ltr">1</b> البث المباشر</button>
+            <button role="tab" id="tab-2" aria-controls="gear-2" aria-selected="false" data-gear="2" type="button" tabindex="-1"><b dir="ltr">2</b> التدريب الشخصي</button>
+            <button role="tab" id="tab-3" aria-controls="gear-3" aria-selected="false" data-gear="3" type="button" tabindex="-1"><b dir="ltr">3</b> <span dir="ltr">Sharyan Funded</span></button>
+          </div>
+        </div>
+        <div class="shifter__panels">
+          <div class="gear-panel is-active" id="gear-1" role="tabpanel" aria-labelledby="tab-1">
+            <p class="gear-panel__tag">مجاني · كل يوم</p>
+            <h3>البث المباشر</h3>
+            <p>«أقوى بث على مستوى الوطن العربي، مجاني وبدون أي شروط» — بكلماته على موقعه. المستوى بينحط قدامك، والكسر بتشوفه لحظة بلحظة.</p>
+            <ul class="facts">
+              <li><bdi>3,000+</bdi> متداول بالبث يومياً</li>
+              <li>مع افتتاح نيويورك</li>
+              <li>ذهب <bdi>XAUUSD</bdi></li>
+            </ul>
+            <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+          </div>
+          <div class="gear-panel" id="gear-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+            <p class="gear-panel__tag">مباشر · مقاعد محدودة</p>
+            <h3>التدريب الشخصي المباشر</h3>
+            <p>نفس أسلوب البث تماماً، مع عبود مباشرة، و<b>12 شهر</b> متابعة شخصية مع الفريق بعد المحاضرات.</p>
+            <ol class="modules" id="modules">
+              <li>أرقام الكسر</li>
+              <li>وهم مدارس التحليل</li>
+              <li>حقيقة الفيبوناتشي</li>
+              <li>رقم الكسر الصحيح</li>
+              <li>كشف خدعة التداول</li>
+              <li>وقت الكسر</li>
+              <li>البحث عن صفقة البث</li>
+              <li>معادلة رأس المال</li>
+              <li>المتابعة الشخصية · 12 شهر</li>
+            </ol>
+            <p class="gear-panel__quote">لا وعود بالربح. الضمان الوحيد إنك بتاخد نفس الأسلوب — زي ما هو مكتوب على موقعه.</p>
+            <a class="btn btn--gold" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer">قدّم على sharyan.io</a>
+          </div>
+          <div class="gear-panel" id="gear-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+            <p class="gear-panel__tag">قناة خاصة</p>
+            <h3 dir="ltr">Sharyan Funded</h3>
+            <p>قناة خاصة بالحسابات الممولة وكل شي بيتعلق فيها، مع حساب دعم رسمي واحد.</p>
+            <ul class="facts">
+              <li><bdi>3,094</bdi> مشترك</li>
+              <li>الدعم: <bdi>@SharyanFundedSupport</bdi></li>
+            </ul>
+            <a class="btn btn--gold" href="https://t.me/SharyanFunded" target="_blank" rel="noopener noreferrer">افتح القناة</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 06 CREW (56,044 particles) ===== -->
+    <section class="crew" id="crew" aria-labelledby="crew-title">
+      <div class="crew__stage">
+        <canvas class="crew__canvas" id="crew-canvas" aria-hidden="true"></canvas>
+        <header class="section-head section-head--abs">
+          <p class="section-head__no" dir="ltr">06</p>
+          <h2 class="section-head__title" id="crew-title">مين معه</h2>
+        </header>
+        <div class="crew__captions">
+          <p class="crew__cap" data-cap="0">كل نقطة هون = <span class="gold">مشترك حقيقي</span> بقناته.</p>
+          <p class="crew__cap" data-cap="1"><bdi class="gold">56,044</bdi> واحد. ولسا العدّاد شغّال.</p>
+          <p class="crew__cap" data-cap="2">ومين بيدعمه؟ <span class="gold">ناسه.</span> كل يوم بيبعتوا نتائجهم للقناة.</p>
+        </div>
+        <ul class="crew__list">
+          <li><b>فريق المتابعة</b><span>12 شهر مع كل متدرّب</span></li>
+          <li><b dir="ltr">3,000+</b><span>بالبث المباشر يومياً</span></li>
+          <li><b dir="ltr">62.5K</b><span>على إنستغرام</span></li>
+          <li><b dir="ltr">3,094</b><span>بقناة Sharyan Funded</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== OUTRO ===== -->
+    <section class="outro" id="outro" aria-labelledby="outro-title">
+      <svg class="outro__falcon" viewBox="0 0 600 300" aria-hidden="true"><use href="#falcon"/></svg>
+      <h2 class="outro__title" id="outro-title" dir="ltr">Faith over everything.</h2>
+      <p class="outro__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span class="gold">$$</span></p>
+      <div class="outro__cta">
+        <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+        <a class="btn btn--ghost" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a>
+        <a class="btn btn--ghost" href="https://www.instagram.com/sshryyan/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a>
+      </div>
+
+      <aside class="signature" id="signature" aria-label="عن هذا الموقع">
+        <p class="signature__kicker" dir="ltr">CONCEPT · 2026</p>
+        <p class="signature__text">هالموقع <b>تصوّر غير رسمي</b> صمّمه ماهر لعبود الشريان — هدية، وبداية حديث. مش الموقع الرسمي، وكل الأرقام فيه من صفحاتك العامة.</p>
+        <p class="signature__text">إذا عجبك الشغل، خلّينا نكمّله سوا.</p>
+      </aside>
+      <p class="disclaimer">التداول فيه مخاطرة. ولا شي بهالصفحة توصية أو وعد بربح — وزي ما بيقول عبود: الضمان الوحيد هو الأسلوب.</p>
+    </section>
+  </main>
+
+  <!-- Lightbox for the proof wall -->
+  <dialog class="lightbox" id="lightbox" aria-label="صورة من القناة">
+    <button class="lightbox__close" type="button" id="lightbox-close" aria-label="إغلاق">×</button>
+    <img id="lightbox-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+  </dialog>
+
+  <!-- ===== Line-art symbols (drawn on scroll) ===== -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="art-dubai" viewBox="0 0 400 260">
+      <g class="draw">
+        <path d="M10 230 H390"/>
+        <path d="M198 230 V40 L202 12 L206 40 V230"/>
+        <path d="M190 230 V90 H214 V230 M184 230 V140 H220 V230"/>
+        <path d="M40 230 V150 H70 V230 M78 230 V120 H104 V230 M112 230 V170 H140 V230"/>
+        <path d="M250 230 V130 H280 V230 M288 230 V160 H318 V230 M326 230 V110 H352 V230"/>
+        <path d="M30 60 H120 V110 H30 Z M140 60 H170 V110 H140 Z"/>
+        <path d="M40 98 L60 84 L74 92 L92 72 L110 80"/>
+        <path d="M75 110 V130 M65 130 H85"/>
+      </g>
+    </symbol>
+    <symbol id="art-plane" viewBox="0 0 400 260">
+      <g class="draw">
+        <rect x="120" y="30" width="160" height="200" rx="80"/>
+        <rect x="140" y="52" width="120" height="156" rx="60"/>
+        <path d="M150 170 C190 150 220 160 250 140"/>
+        <path d="M160 120 L240 100 M170 110 L182 118 M220 104 L230 112"/>
+        <path d="M40 230 H360"/>
+      </g>
+    </symbol>
+    <symbol id="art-car" viewBox="0 0 400 260">
+      <g class="draw">
+        <path d="M10 220 C80 200 140 205 200 214 C260 222 320 206 390 196"/>
+        <path d="M80 180 V112 L96 88 H262 L292 124 H322 C334 124 340 132 340 144 V180 Z"/>
+        <path d="M104 96 H180 V124 H104 Z M190 96 H256 L278 124 H190 Z"/>
+        <circle cx="130" cy="184" r="24"/><circle cx="288" cy="184" r="24"/>
+        <circle cx="130" cy="184" r="9"/><circle cx="288" cy="184" r="9"/>
+        <path d="M60 150 H20 M60 164 H8 M60 136 H30"/>
+      </g>
+    </symbol>
+    <symbol id="art-peaks" viewBox="0 0 400 260">
+      <g class="draw">
+        <path d="M10 200 L90 80 L130 130 L180 50 L260 170"/>
+        <path d="M70 110 L90 80 L104 98 M160 80 L180 50 L196 74"/>
+        <path d="M230 200 C260 150 300 140 330 160 L330 230"/>
+        <path d="M200 230 C240 220 270 236 300 228 C330 220 360 232 390 226"/>
+        <path d="M340 60 m-16 0 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0"/>
+      </g>
+    </symbol>
+    <symbol id="art-gym" viewBox="0 0 400 260">
+      <g class="draw">
+        <path d="M110 130 H290"/>
+        <rect x="70" y="90" width="22" height="80" rx="4"/><rect x="94" y="104" width="16" height="52" rx="3"/>
+        <rect x="308" y="90" width="22" height="80" rx="4"/><rect x="290" y="104" width="16" height="52" rx="3"/>
+        <path d="M30 230 H370"/>
+        <path d="M150 60 L180 40 L200 60 L220 30 L250 50"/>
+      </g>
+    </symbol>
+    <symbol id="falcon" viewBox="0 0 600 300">
+      <!-- Stylised stooping falcon: wings swept back, beak forward (to the left). -->
+      <path d="M40 150 L88 136 L112 142 L150 128 L250 96 L420 20 L360 92 L560 64 L404 134 L520 170 L380 168 L300 186 L230 210 L180 196 L140 184 L112 166 L88 166 Z"/>
+      <path class="falcon-eye" d="M96 146 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"/>
+    </symbol>
+  </svg>
+
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lenis.min.js" defer></script>
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>

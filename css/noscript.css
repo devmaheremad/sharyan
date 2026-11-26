@@ -1,0 +1,3 @@
+/* Without JavaScript: no gate, normal scrolling. */
+.gate, .crosshair { display: none !important; }
+body.is-locked { overflow: auto !important; }
