@@ -101,7 +101,7 @@ export function initServices({ reduced }) {
 }
 
 // ---------- 06: lines from his stream and reels (each card plays his own voice) ----------
-const LINES = ['يس! هود! اضرب!', 'كمان مرة!', 'المتواضع عبود الشريان', 'هذا العالم صعب', 'خذها من خبير', 'حياكم الله'];
+const LINES = ['ذياب، اضرب!', 'كمان مرة!', 'المتواضع عبود الشريان', 'هذا العالم صعب', 'خذها من خبير', 'حياكم الله'];
 
 export function initQuotes({ reduced }) {
   const track = qs('#quotes-track');
