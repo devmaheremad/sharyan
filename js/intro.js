@@ -28,23 +28,19 @@ export function runIntro({ motion, onDone }) {
   let shown = 0;
   let lastStep = -1;
   let finished = false;
-  // The counter climbs to the live gold price (3870.00, his 17 Nov level, if the market feed is slow).
-  let target = 3870;
+  // The big number is only ever the live gold price: it stays hidden until the feed answers,
+  // then appears already correct and follows every update. No made-up number is ever shown.
   const levelEl = qs('.intro__level');
-  const tagEl = qs('.intro__tag');
-  let gotPrice = false;
-  const usePrice = (p) => {
-    if (!p || gotPrice || shown > 0.6) return;
-    gotPrice = true;
-    target = p;
+  const priceBox = qs('.intro__price');
+  const showPrice = (p) => {
+    if (!p) return;
+    priceEl.textContent = p.toFixed(2);
     levelEl.textContent = p.toFixed(2);
-    tagEl.innerHTML = '<span dir="ltr">XAUUSD</span> · سعر الذهب الآن';
+    priceBox.classList.add('is-live');
   };
-  price.first(1800).then(usePrice);
+  price.onChange(showPrice);
 
   function paint() {
-    const value = target - 70 + shown * 70;
-    priceEl.textContent = value.toFixed(2);
     fillEl.style.transform = `scaleX(${shown})`;
     pctEl.textContent = `${String(Math.round(shown * 100)).padStart(2, '0')}%`;
   }
@@ -88,7 +84,7 @@ export function runIntro({ motion, onDone }) {
 
   // entrance of the loader itself
   if (motion && window.gsap) {
-    window.gsap.from('.intro__brand, .intro__price, .intro__tag', { y: 16, opacity: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' });
+    window.gsap.from('.intro__brand, .intro__tag', { y: 16, opacity: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' });
     window.gsap.from('.intro__slogan, .intro__pct', { y: -12, opacity: 0, duration: 0.7, stagger: 0.08, delay: 0.2, ease: 'power3.out' });
   }
   paint();

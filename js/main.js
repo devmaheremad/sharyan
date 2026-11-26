@@ -80,7 +80,7 @@ function start() {
   price.start();
   const soundUI = initSoundUI();
   initVoices({ onEnable: () => writePref('on') });
-  sound.onChange((on) => { if (on) sound.preloadVoices(['tp1', 'tp2', 'tp3', 'iam', 'inside']); });
+  sound.onChange((on) => { if (on) sound.preloadVoices(['tp1', 'tp2', 'dyab', 'iam', 'inside']); });
   const motionCard = initMotionCard({ prefersReduced, forced });
 
   // Try to start sound straight away (works when the browser allows autoplay).

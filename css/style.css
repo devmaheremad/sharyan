@@ -124,7 +124,8 @@ bdi, [dir="ltr"] { unicode-bidi: isolate; }
 .intro__top { bottom: calc(50% + 30px); gap: 12px; }
 .intro__bottom { top: calc(50% + 30px); gap: 14px; }
 .intro__brand { margin: 0; font: 400 15px/1 var(--f-en); letter-spacing: .6em; color: var(--muted); }
-.intro__price { margin: 0; font: 700 clamp(54px, 10vw, 140px)/1 var(--f-mono); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.intro__price { margin: 0; font: 700 clamp(54px, 10vw, 140px)/1 var(--f-mono); letter-spacing: -.02em; font-variant-numeric: tabular-nums; min-height: 1em; opacity: 0; transition: opacity .5s; }
+.intro__price.is-live { opacity: 1; }
 .intro__tag { margin: 0; color: var(--muted); font-size: 14px; }
 .intro__tag span { font-family: var(--f-mono); color: var(--gold); }
 .intro__line { position: absolute; left: var(--pad); right: var(--pad); top: 50%; height: 2px; margin-top: -1px; background: rgba(244,241,234,.1); }
@@ -526,8 +527,46 @@ section { position: relative; }
 .outro__slogan { margin: 0; font: 400 clamp(16px, 2vw, 28px)/1 var(--f-en); letter-spacing: .18em; color: var(--muted); }
 .outro__cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px; }
 .disclaimer { margin: 26px 0 0; max-width: 64ch; color: var(--muted); font-size: 13px; }
-.credit { padding: 22px var(--pad) 30px; border-top: 1px solid var(--rule); text-align: center; }
-.credit p { margin: 0; color: #6f6c65; font-size: 12px; }
+/* ---------- credit: the designer's signature ---------- */
+.credit { position: relative; padding: 34px var(--pad) 40px; background: var(--ink); }
+.credit::before {
+  content: ""; position: absolute; top: 0; left: var(--pad); right: var(--pad); height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,169,79,.65) 30%, rgba(241,212,136,.9) 50%, rgba(212,169,79,.65) 70%, transparent);
+}
+.credit__inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 22px; }
+.credit__mark { flex: none; text-decoration: none; }
+.credit__mono {
+  display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%;
+  border: 1px solid rgba(212,169,79,.55); color: var(--gold-hi); font: 400 20px/1 var(--f-en); letter-spacing: .08em;
+  background: radial-gradient(circle at 50% 30%, #17130b, #070707 70%);
+  transition: background .4s, color .4s, border-color .4s, transform .6s var(--ease-out);
+}
+.credit__mark:hover .credit__mono { background: var(--gold); color: var(--ink); border-color: var(--gold); transform: rotate(-8deg) scale(1.04); }
+.credit__who { display: grid; gap: 3px; }
+.credit__who p { margin: 0; }
+.credit__label { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: .02em; }
+.credit__label span { font-family: var(--f-mono); font-weight: 400; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.credit__name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.credit__name a { font: 800 clamp(20px, 1.8vw, 26px)/1.3 var(--f-display); color: var(--paper); text-decoration: none; }
+.credit__name a:hover { color: var(--gold-hi); }
+.credit__latin { font: 400 14px/1 var(--f-en); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.credit__role { font: 400 11px/1.4 var(--f-mono); letter-spacing: .18em; text-transform: uppercase; color: #6f6c65; }
+.credit__site {
+  margin-right: auto; display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px;
+  border: 1px solid var(--rule); color: var(--paper); text-decoration: none; font: 700 14px/1 var(--f-mono); letter-spacing: .04em;
+  transition: border-color .3s, color .3s, background-color .3s;
+}
+.credit__site span { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .45s var(--ease-out); padding-bottom: 3px; }
+.credit__site:hover { border-color: var(--gold); color: var(--gold-hi); background: rgba(212,169,79,.06); }
+.credit__site:hover span { background-size: 100% 1px; }
+.credit__site i { font-style: normal; transition: transform .4s var(--ease-out); }
+.credit__site:hover i { transform: translate(3px, -3px); }
+@media (max-width: 700px) {
+  .credit__inner { flex-wrap: wrap; justify-content: center; text-align: center; }
+  .credit__who { justify-items: center; }
+  .credit__name { justify-content: center; }
+  .credit__site { margin: 6px auto 0; }
+}
 
 /* ---------- lightbox ---------- */
 .lightbox {

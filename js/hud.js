@@ -154,7 +154,7 @@ export function initCrosshair() {
   };
   window.addEventListener('pointermove', (e) => {
     x = e.clientX; y = e.clientY;
-    root.classList.toggle('is-on', !e.target.closest('a, button, .intro, dialog, .crew, .outro'));
+    root.classList.toggle('is-on', !e.target.closest('a, button, .intro, dialog, .crew, .outro, .credit'));
     if (!raf) raf = requestAnimationFrame(paint);
   }, { passive: true });
   document.addEventListener('pointerleave', () => root.classList.remove('is-on'));

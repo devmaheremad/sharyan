@@ -161,7 +161,7 @@ export function initHeroChart(canvas, { reduced }) {
         // his call when the last target lands
         c2d.fillStyle = GOLD_HI;
         c2d.font = '800 20px Alexandria, Cairo, sans-serif';
-        c2d.fillText('اضرب! كما راهنا', 14, y(cycle.level + cycle.dir * TP[2]) - (cycle.dir === 1 ? 30 : -42));
+        c2d.fillText('اضرب يا ذياب!', 14, y(cycle.level + cycle.dir * TP[2]) - (cycle.dir === 1 ? 30 : -42));
       }
     }
 

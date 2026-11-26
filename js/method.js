@@ -188,10 +188,10 @@ export function initMethod({ reduced }) {
   svgEl('rect', { class: 'flag', x: fx, y: y(TPS[2]) - 92, width: 64, height: 40 }, flag);
   flag.style.opacity = 0;
 
-  // ---- "كما راهنا!" next to the flag (his words when the last target lands)
+  // ---- "اضرب يا ذياب!" next to the flag (his words when the last target lands)
   const wolves = qs('#m-wolves');
   const wolvesText = svgEl('text', { x: fx - 34, y: y(TPS[2]) - 34, 'text-anchor': 'end' }, wolves);
-  wolvesText.textContent = 'كما راهنا!';
+  wolvesText.textContent = 'اضرب يا ذياب!';
   wolves.style.opacity = 0;
 
   // ---- dust / smoke behind the car (a small pool of soft circles)
@@ -246,7 +246,7 @@ export function initMethod({ reduced }) {
     if (hits > lastHits) {
       // his own voice from the stream on every target
       sound.target(hits, 0.35);
-      sound.voice(['tp1', 'tp2', 'tp3'][hits - 1]);
+      sound.voice(['tp1', 'tp2', 'dyab'][hits - 1]);
     }
     lastHits = hits;
     const wantWolves = hits >= 3;
