@@ -6,7 +6,7 @@ import { svgEl, qs, qsa, prng, clamp, lerp } from './util.js';
 import { sound } from './audio.js';
 
 const LEVEL = 3870;
-const SL = 3867.4;
+const SL = 3867.5; // 25 pips (1 pip = $0.10) under the level
 const TPS = [3875, 3879, 3882];
 const X0 = 90;          // first candle x
 const STEP = 26;        // candle spacing
@@ -188,10 +188,10 @@ export function initMethod({ reduced }) {
   svgEl('rect', { class: 'flag', x: fx, y: y(TPS[2]) - 92, width: 64, height: 40 }, flag);
   flag.style.opacity = 0;
 
-  // ---- "اضرب يا ذياب" next to the flag
+  // ---- "كما راهنا!" next to the flag (his words when the last target lands)
   const wolves = qs('#m-wolves');
   const wolvesText = svgEl('text', { x: fx - 34, y: y(TPS[2]) - 34, 'text-anchor': 'end' }, wolves);
-  wolvesText.textContent = 'اضرب يا ذياب 🐺';
+  wolvesText.textContent = 'كما راهنا!';
   wolves.style.opacity = 0;
 
   // ---- dust / smoke behind the car (a small pool of soft circles)
@@ -244,8 +244,9 @@ export function initMethod({ reduced }) {
     stopText.setAttribute('y', secured ? y(LEVEL) + 48 : y(SL) + 5);
     stopText.textContent = secured ? 'SL → الدخول' : `SL ${SL.toFixed(2)}`;
     if (hits > lastHits) {
-      sound.target(hits);
-      if (hits === 3) sound.wolf();
+      // his own voice from the stream on every target
+      sound.target(hits, 0.35);
+      sound.voice(['tp1', 'tp2', 'tp3'][hits - 1]);
     }
     lastHits = hits;
     const wantWolves = hits >= 3;

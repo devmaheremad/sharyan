@@ -90,6 +90,13 @@ function ensure() {
   musicSend.gain.value = 0.7;
   musicBus.connect(musicSend).connect(reverbIn);
 
+  voiceBus = ctx.createGain();
+  voiceBus.gain.value = 1;
+  voiceBus.connect(master);
+  const voiceSend = ctx.createGain();
+  voiceSend.gain.value = 0.07;
+  voiceBus.connect(voiceSend).connect(reverbIn);
+
   noiseBuf = makeNoise(ctx);
   document.addEventListener('visibilitychange', () => {
     if (!ctx) return;
@@ -209,7 +216,23 @@ function startMusic() {
   scheduleMusic();
   musicTimer = window.setInterval(scheduleMusic, 800);
   musicBus.gain.cancelScheduledValues(ctx.currentTime);
-  musicBus.gain.setTargetAtTime(0.75, ctx.currentTime, 1.6);
+  musicBus.gain.setTargetAtTime(MUSIC_LEVEL, ctx.currentTime, 1.6);
+}
+
+// ---------- his voice (clips cut from his reels) ----------
+const MUSIC_LEVEL = 0.3;
+const voiceCache = new Map();
+let voiceBus = null;
+let voiceNow = null;
+
+function loadVoice(name) {
+  if (!voiceCache.has(name)) {
+    voiceCache.set(name, fetch(`media/voice/${name}.m4a`)
+      .then((r) => r.arrayBuffer())
+      .then((b) => ctx.decodeAudioData(b))
+      .catch(() => null));
+  }
+  return voiceCache.get(name);
 }
 
 function stopMusic() {
@@ -257,6 +280,34 @@ export const sound = {
     stopMusic();
     if (ctx) master.gain.setTargetAtTime(0, ctx.currentTime, 0.06);
     listeners.forEach((fn) => fn(false));
+  },
+
+  // Warm the small voice files so the first play is instant.
+  preloadVoices(names) {
+    if (!ensure()) return;
+    names.forEach(loadVoice);
+  },
+
+  // Play one of his clips. Resolves with its length in seconds (0 if it could not play).
+  async voice(name, { gain = 1 } = {}) {
+    if (!ok()) return 0;
+    const buf = await loadVoice(name);
+    if (!buf || !ok()) return 0;
+    if (voiceNow) { try { voiceNow.stop(); } catch (e) { /* already ended */ } }
+    const src = ctx.createBufferSource();
+    const g = ctx.createGain();
+    src.buffer = buf;
+    g.gain.value = gain;
+    src.connect(g).connect(voiceBus);
+    const t = ctx.currentTime;
+    // the music steps back while he talks
+    musicBus.gain.cancelScheduledValues(t);
+    musicBus.gain.setTargetAtTime(MUSIC_LEVEL * 0.25, t, 0.08);
+    musicBus.gain.setTargetAtTime(MUSIC_LEVEL, t + buf.duration + 0.2, 0.6);
+    src.start(t);
+    voiceNow = src;
+    src.onended = () => { if (voiceNow === src) voiceNow = null; };
+    return buf.duration;
   },
 
   // 0..1 scroll energy opens the pad a little.
@@ -324,16 +375,55 @@ export const sound = {
     lfo.start(t); lfo.stop(t + duration + 0.05);
   },
 
-  // Starter motor cranks three times, then the engine catches.
+  // Luxury start button: a soft click, a two-note chime, and a deep, filtered swell (no crank, no rasp).
   ignition() {
     if (!ok()) return;
     const t = ctx.currentTime;
-    for (let i = 0; i < 4; i++) {
-      const tt = t + i * 0.11;
-      burst(tt, { type: 'lowpass', freq: 600, peak: 0.35, decay: 0.07 });
-      tone(70, tt, { type: 'square', peak: 0.12, decay: 0.07 });
-    }
-    this.rev(1.5, 38, 200, 0.5, t + 0.48);
+    burst(t, { type: 'bandpass', freq: 2600, q: 3, peak: 0.08, decay: 0.03 });
+    tone(880, t + 0.03, { peak: 0.06, decay: 0.5 });
+    tone(1318.5, t + 0.13, { peak: 0.05, decay: 0.7 });
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass'; lp.Q.value = 0.7;
+    lp.frequency.setValueAtTime(160, t + 0.1);
+    lp.frequency.exponentialRampToValueAtTime(520, t + 0.9);
+    lp.frequency.exponentialRampToValueAtTime(220, t + 1.8);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t + 0.1);
+    g.gain.exponentialRampToValueAtTime(0.22, t + 0.6);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.9);
+    lp.connect(g).connect(fxBus);
+    [[46, 'sine'], [92, 'triangle'], [46.4, 'sawtooth']].forEach(([f, type]) => {
+      const o = ctx.createOscillator();
+      o.type = type;
+      o.frequency.setValueAtTime(f, t + 0.1);
+      o.frequency.exponentialRampToValueAtTime(f * 1.5, t + 0.7);
+      o.frequency.exponentialRampToValueAtTime(f * 1.15, t + 1.8);
+      const og = ctx.createGain();
+      og.gain.value = type === 'sawtooth' ? 0.15 : 0.5;
+      o.connect(og).connect(lp);
+      o.start(t + 0.1); o.stop(t + 2);
+    });
+  },
+
+  // Gauges: a soft turbine spool and a gentle settle, instead of an engine rev.
+  spool(duration = 1.6) {
+    if (!ok()) return;
+    const t = ctx.currentTime;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(220, t);
+    o.frequency.exponentialRampToValueAtTime(880, t + duration * 0.7);
+    o.frequency.exponentialRampToValueAtTime(660, t + duration);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.05, t + duration * 0.5);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+    o.connect(g).connect(fxBus);
+    o.start(t); o.stop(t + duration + 0.05);
+    const f = burst(t, { type: 'bandpass', freq: 600, q: 1.5, peak: 0.06, decay: duration });
+    f.frequency.setValueAtTime(600, t);
+    f.frequency.exponentialRampToValueAtTime(2600, t + duration * 0.7);
+    tone(1046.5, t + duration * 0.85, { peak: 0.05, decay: 0.8 });
   },
 
   // Gear change: clunk + throttle blip.
@@ -407,48 +497,6 @@ export const sound = {
     g.gain.exponentialRampToValueAtTime(0.0001, t + 0.8);
     o.connect(bp).connect(g).connect(fxBus);
     [o, vib].forEach((x) => { x.start(t); x.stop(t + 0.85); });
-  },
-
-  // "اضرب يا ذياب": a wolf howl, then the pack answers a fifth higher.
-  wolf() {
-    if (!ok()) return;
-    const t = ctx.currentTime;
-    const howl = (start, base, len, vol) => {
-      const o = ctx.createOscillator();
-      const o2 = ctx.createOscillator();
-      const vib = ctx.createOscillator();
-      const vibG = ctx.createGain();
-      const f1 = ctx.createBiquadFilter();
-      const g = ctx.createGain();
-      o.type = 'sawtooth'; o2.type = 'sine';
-      o.frequency.setValueAtTime(base * 0.62, start);
-      o.frequency.exponentialRampToValueAtTime(base, start + len * 0.28);
-      o.frequency.setValueAtTime(base, start + len * 0.62);
-      o.frequency.exponentialRampToValueAtTime(base * 0.7, start + len);
-      o2.frequency.setValueAtTime(base * 1.24, start);
-      o2.frequency.exponentialRampToValueAtTime(base * 2, start + len * 0.28);
-      o2.frequency.exponentialRampToValueAtTime(base * 1.4, start + len);
-      vib.frequency.value = 5.5; vibG.gain.value = base * 0.018;
-      vib.connect(vibG).connect(o.frequency);
-      f1.type = 'bandpass'; f1.Q.value = 3;
-      f1.frequency.setValueAtTime(650, start);
-      f1.frequency.linearRampToValueAtTime(1100, start + len * 0.4);
-      f1.frequency.linearRampToValueAtTime(800, start + len);
-      g.gain.setValueAtTime(0.0001, start);
-      g.gain.exponentialRampToValueAtTime(vol, start + len * 0.25);
-      g.gain.setValueAtTime(vol, start + len * 0.7);
-      g.gain.exponentialRampToValueAtTime(0.0001, start + len);
-      const og2 = ctx.createGain(); og2.gain.value = 0.35;
-      o.connect(f1).connect(g);
-      o2.connect(og2).connect(g);
-      g.connect(fxBus);
-      const send = ctx.createGain(); send.gain.value = 0.9;
-      g.connect(send).connect(reverbIn);
-      [o, o2, vib].forEach((x) => { x.start(start); x.stop(start + len + 0.05); });
-    };
-    howl(t, 440, 2.1, 0.22);
-    howl(t + 0.7, 660, 1.6, 0.12);
-    howl(t + 1.0, 523, 1.5, 0.1);
   },
 
   // ---------- money ----------

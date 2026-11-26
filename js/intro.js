@@ -3,6 +3,7 @@
 
 import { qs, clamp } from './util.js';
 import { sound } from './audio.js';
+import { price } from './price.js';
 
 export function runIntro({ motion, onDone }) {
   const intro = qs('#intro');
@@ -27,19 +28,32 @@ export function runIntro({ motion, onDone }) {
   let shown = 0;
   let lastStep = -1;
   let finished = false;
+  // The counter climbs to the live gold price (3870.00, his 17 Nov level, if the market feed is slow).
+  let target = 3870;
+  const levelEl = qs('.intro__level');
+  const tagEl = qs('.intro__tag');
+  let gotPrice = false;
+  const usePrice = (p) => {
+    if (!p || gotPrice || shown > 0.6) return;
+    gotPrice = true;
+    target = p;
+    levelEl.textContent = p.toFixed(2);
+    tagEl.innerHTML = '<span dir="ltr">XAUUSD</span> · سعر الذهب الآن';
+  };
+  price.first(1800).then(usePrice);
 
   function paint() {
-    const price = 3800 + shown * 70;
-    priceEl.textContent = price.toFixed(2);
+    const value = target - 70 + shown * 70;
+    priceEl.textContent = value.toFixed(2);
     fillEl.style.transform = `scaleX(${shown})`;
     pctEl.textContent = `${String(Math.round(shown * 100)).padStart(2, '0')}%`;
   }
 
   function frame(now) {
     const elapsed = now - start;
-    const target = elapsed > MAX ? 1 : Math.min(loaded, elapsed / MIN);
-    shown += (target - shown) * 0.12;
-    if (target >= 1 && shown > 0.995) shown = 1;
+    const goal = elapsed > MAX ? 1 : Math.min(loaded, elapsed / MIN);
+    shown += (goal - shown) * 0.12;
+    if (goal >= 1 && shown > 0.995) shown = 1;
     paint();
     const step = Math.floor(shown * 24);
     if (step !== lastStep) { lastStep = step; sound.introTick(shown); }

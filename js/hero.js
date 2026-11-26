@@ -28,6 +28,7 @@ export function initHeroChart(canvas, { reduced }) {
   let raf = 0;
   let flash = 0;            // break flash 0..1
   let flashX = 0;
+  let offset = 0;           // shifts the labels so the simulated chart sits at the live gold price
 
   function newCycle(prevDir) {
     const dir = prevDir === 1 ? -1 : 1;
@@ -160,7 +161,7 @@ export function initHeroChart(canvas, { reduced }) {
         // his call when the last target lands
         c2d.fillStyle = GOLD_HI;
         c2d.font = '800 20px Alexandria, Cairo, sans-serif';
-        c2d.fillText('اضرب يا ذياب 🐺', 14, y(cycle.level + cycle.dir * TP[2]) - (cycle.dir === 1 ? 30 : -42));
+        c2d.fillText('اضرب! كما راهنا', 14, y(cycle.level + cycle.dir * TP[2]) - (cycle.dir === 1 ? 30 : -42));
       }
     }
 
@@ -186,7 +187,7 @@ export function initHeroChart(canvas, { reduced }) {
       c2d.strokeStyle = cycle.phase === 'approach' || cycle.phase === 'break' ? GOLD : 'rgba(212,169,79,0.55)';
       c2d.beginPath(); c2d.moveTo(0, ly); c2d.lineTo(W, ly); c2d.stroke();
       c2d.lineWidth = 1;
-      const label = `${cycle.dir === 1 ? 'BUY ▲' : 'SELL ▼'} ${cycle.level.toFixed(2)}`;
+      const label = `${cycle.dir === 1 ? 'BUY ▲' : 'SELL ▼'} ${(cycle.level + offset).toFixed(2)}`;
       c2d.font = '700 12px "JB Mono", monospace';
       const tw = c2d.measureText(label).width + 16;
       c2d.fillStyle = GOLD;
@@ -255,5 +256,5 @@ export function initHeroChart(canvas, { reduced }) {
   let rt = 0;
   window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); draw(); }, 120); });
 
-  return { start, stop };
+  return { start, stop, setPrice: (p) => { if (p) offset = Math.round((p - price) * 100) / 100; } };
 }

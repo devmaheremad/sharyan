@@ -150,7 +150,7 @@ export function initGauges({ reduced }) {
     start: 'top 75%',
     once: true,
     onEnter: () => {
-      sound.rev(1.6, 40, 230, 0.6);
+      sound.spool(1.9);
       gauges.forEach((fig, i) => {
         const target = Number(fig.dataset.value);
         const num = qs('.gauge__num', fig);

@@ -100,17 +100,8 @@ export function initServices({ reduced }) {
   window.ScrollTrigger.create({ trigger: '.dash', start: 'top 70%', once: true, onEnter: () => setTimeout(() => select(1, { demo: true }), 300) });
 }
 
-// ---------- 06: the stream dictionary ----------
-const LINES = ['بكره الفقر… والفقراء.', 'وبدي غيّره.', 'بديش فقراء العرب.', 'اضرب يا ذياب!'];
-const FX = {
-  scratch: () => sound.scratch(),
-  rise: () => sound.rise(),
-  cash: () => sound.cash(),
-  wolf: () => {
-    sound.wolf();
-    [1, 2, 3].forEach((n, i) => setTimeout(() => sound.target(n, 0.8), 250 + i * 260));
-  },
-};
+// ---------- 06: lines from his stream and reels (each card plays his own voice) ----------
+const LINES = ['يس! هود! اضرب!', 'كما راهنا!', 'المتواضع عبود الشريان', 'هذا العالم صلب', 'خذها من خبير', 'حياكم الله'];
 
 export function initQuotes({ reduced }) {
   const track = qs('#quotes-track');
@@ -134,22 +125,58 @@ export function initQuotes({ reduced }) {
         onEnter: () => gsap().to(words, { yPercent: 0, opacity: 1, duration: 0.75, stagger: 0.07, ease: 'power3.out' }),
       });
     }
+    // the voice itself is played by initVoices(); here only the words punch in
     pad.addEventListener('click', () => {
-      const fx = pad.dataset.fx;
-      if (FX[fx]) FX[fx]();
-      if (reduced || !window.gsap) {
-        pad.classList.add('is-playing');
-        setTimeout(() => pad.classList.remove('is-playing'), 1200);
-        return;
-      }
-      gsap().killTweensOf(pad);
-      pad.classList.add('is-playing');
-      gsap().timeline({ onComplete: () => pad.classList.remove('is-playing') })
-        .fromTo(pad, { '--fill': 0 }, { '--fill': 1, duration: 0.32, ease: 'power3.out' })
-        .fromTo(words, { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, stagger: 0.08, ease: 'expo.out' }, 0.05)
-        .to(pad, { '--fill': 0, duration: 0.5, ease: 'power2.in' }, fx === 'wolf' ? 2 : 1.3);
+      if (reduced || !window.gsap) return;
+      gsap().fromTo(words, { scale: 1.25, opacity: 0.2 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'expo.out' });
     });
   });
+}
+
+// ---------- every [data-voice] button: turn sound on if needed, play his clip, show it playing ----------
+export function initVoices({ onEnable } = {}) {
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-voice]');
+    if (!btn) return;
+    if (!sound.enabled) {
+      if (!(await sound.enable())) return;
+      if (onEnable) onEnable();
+    }
+    const dur = await sound.voice(btn.dataset.voice);
+    if (!dur) return;
+    qsa('.is-speaking').forEach((el) => el.classList.remove('is-speaking'));
+    btn.classList.add('is-speaking');
+    const bar = btn.querySelector('.pad__bar i');
+    if (bar) {
+      bar.style.transition = 'none';
+      bar.style.transform = 'scaleX(0)';
+      void bar.offsetWidth;
+      bar.style.transition = `transform ${dur}s linear`;
+      bar.style.transform = 'scaleX(1)';
+    }
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => {
+      btn.classList.remove('is-speaking');
+      if (bar) { bar.style.transition = 'transform .3s'; bar.style.transform = 'scaleX(0)'; }
+    }, dur * 1000 + 150);
+  });
+}
+
+// ---------- lifestyle reels: play while on screen ----------
+export function initReels({ reduced }) {
+  const vids = qsa('.reel__video');
+  if (reduced) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      const v = en.target;
+      if (en.isIntersecting) {
+        v.preload = 'auto';
+        const p = v.play();
+        if (p && p.catch) p.catch(() => {});
+      } else v.pause();
+    });
+  }, { rootMargin: '0px 200px', threshold: 0.2 });
+  vids.forEach((v) => io.observe(v));
 }
 
 // ---------- outro: falcon in flight + "Faith over everything." under a light that follows the pointer ----------
@@ -232,6 +259,7 @@ export function initOutro({ reduced }) {
     onEnter: () => {
       sound.whoosh(0.8, 0.4);
       setTimeout(() => sound.screech(), 260);
+      setTimeout(() => sound.voice('inside'), 1400);
       gsap().to(svg, { xPercent: 0, yPercent: 0, opacity: 1, duration: 1.2, ease: 'power3.out' });
       gsap().to(words, { yPercent: 0, opacity: 1, duration: 0.85, stagger: 0.09, delay: 0.35, ease: 'power3.out', onUpdate: paint });
     },

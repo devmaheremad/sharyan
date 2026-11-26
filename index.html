@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://cdn.shopify.com data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://cdn.shopify.com data:; font-src 'self'; connect-src 'self' https://api.gold-api.com https://api.binance.com; media-src 'self'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف.</title>
   <meta name="description" content="عبود الشريان: متداول محترف، بث مباشر مجاني كل يوم مع افتتاح نيويورك، طريقة الخط والكسر، والتدريب الشخصي. الأرقام كما هي على صفحاته العامة.">
@@ -44,7 +44,7 @@
     <div class="intro__top">
       <p class="intro__brand" dir="ltr">SHARYAN</p>
       <p class="intro__price" dir="ltr"><span id="intro-price">3800.00</span></p>
-      <p class="intro__tag"><span dir="ltr">XAUUSD · M1</span> · السعر بيقرّب من الخط</p>
+      <p class="intro__tag"><span dir="ltr">XAUUSD</span> · سعر الذهب الآن</p>
     </div>
     <div class="intro__line"><span class="intro__fill" id="intro-fill"></span><span class="intro__level" dir="ltr">3870.00</span></div>
     <div class="intro__bottom">
@@ -95,24 +95,25 @@
              srcset="img/aboud-night-800.webp 800w, img/aboud-night-1400.webp 1400w"
              sizes="(max-width: 800px) 100vw, 50vw"
              width="1400" height="1750" fetchpriority="high" decoding="async"
-             alt="عبود الشريان بالليل في دبي جنب سيارته، شنط السفر جاهزة والتلفون على أذنه">
+             alt="أنا بالليل بدبي جنب سيارتي، الشنط جاهزة والتلفون على أذني">
         <figcaption class="visually-hidden">من حسابه على إنستغرام، دبي، أغسطس ٢٠٢٦</figcaption>
       </figure>
       <div class="hero__content">
-        <p class="eyebrow">متداول محترف · ذهب وكريبتو · بث يومي مع افتتاح نيويورك</p>
+        <p class="eyebrow">ذهب وكريبتو · بثي مباشر كل يوم مع افتتاح نيويورك</p>
         <h1 class="hero__title" id="hero-title">
           <span class="word">عبود</span>
           <span class="word word--gold">الشريان</span>
         </h1>
         <p class="hero__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span class="gold">$$</span></p>
-        <p class="hero__lede">خط واحد. شمعة دقيقة بتسكّر وراه. وثلاث أهداف — بسرعة الصقر.</p>
+        <p class="hero__lede">بعطيك خط واحد. شمعة دقيقة بتسكّر وراه. وثلاث أهداف — بسرعة الصقر.</p>
         <ul class="hero__chips">
-          <li><b dir="ltr">56,044</b> مشترك بقناة التلغرام</li>
-          <li><b dir="ltr">3,000+</b> متداول بالبث كل يوم</li>
+          <li><b dir="ltr">56,044</b> مشترك بقناتي</li>
+          <li><b dir="ltr">3,000+</b> متداول ببثي كل يوم</li>
         </ul>
         <div class="hero__cta">
-          <a class="btn btn--gold" href="#method">شوف الطريقة</a>
-          <a class="btn btn--ghost" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+          <a class="btn btn--gold" href="#method">شوف طريقتي</a>
+          <a class="btn btn--ghost" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل بثي مجاناً</a>
+          <button class="btn btn--voice" type="button" data-voice="iam"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعني</button>
         </div>
       </div>
       <div class="hero__scroll" aria-hidden="true"><span>مرّر</span><i></i></div>
@@ -123,11 +124,10 @@
       <div class="method__stage">
         <header class="section-head section-head--abs">
           <p class="section-head__no" dir="ltr">01</p>
-          <h2 class="section-head__title" id="method-title">الطريقة</h2>
+          <h2 class="section-head__title" id="method-title">طريقتي</h2>
         </header>
 
-        <svg class="method__svg" id="method-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="method-svg-title">
-          <title id="method-svg-title">رسم متحرك: خط المستوى 3870، شمعة دقيقة تسكّر فوقه، والسعر يصل للأهداف الثلاثة</title>
+        <svg class="method__svg" id="method-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" role="img" aria-label="رسم متحرك: خط المستوى 3870، شمعة دقيقة تسكّر فوقه، والسعر بيوصل للأهداف الثلاثة">
           <defs>
             <linearGradient id="g-gold" gradientUnits="userSpaceOnUse" x1="0" x2="1600" y1="0" y2="0">
               <stop offset="0" stop-color="#8c6a26"/>
@@ -165,23 +165,24 @@
         </svg>
 
         <ol class="method__captions" id="method-captions">
-          <li data-beat="0"><b>خط واحد.</b><span>مع افتتاح نيويورك، عبود بيعلن مستوى واحد واتجاه واحد. هون: شراء فوق <bdi>3870.00</bdi>.</span></li>
-          <li data-beat="1"><b>السعر بيقرّب…</b><span>بيلمس الخط، بيجرّب، بيضغط. ولسا ما في دخول.</span></li>
-          <li data-beat="2"><b>الذيل ما بيحسب.</b><span>اللمسة مش كسر. الدخول بس على <em>إغلاق</em> شمعة الدقيقة.</span></li>
-          <li data-beat="3"><b>كسر.</b><span>شمعة الدقيقة سكّرت فوق الخط — هون الدخول، بدقة الصقر.</span></li>
-          <li data-beat="4"><b>الهدف الأول — أمّن الكل.</b><span><bdi>3875.00</bdi> · نص الصفقة بره، والستوب على الدخول.</span></li>
-          <li data-beat="5"><b>الهدف الثاني.</b><span><bdi>3879.00</bdi> · والسيارة لسا بأول غيار.</span></li>
-          <li data-beat="6"><b>الهدف الثالث — اضرب يا ذياب.</b><span><bdi>3882.00</bdi> · خط النهاية.</span></li>
+          <li data-beat="0"><b>خط واحد.</b><span>مع افتتاح نيويورك بعلن مستوى واحد واتجاه واحد، وستوب 25 نقطة. هون: شراء فوق <bdi>3870.00</bdi>.</span></li>
+          <li data-beat="1"><b>السعر بيقرّب…</b><span>بيلمس الخط، بيجرّب، بيضغط. وأنا لسا ما دخلت.</span></li>
+          <li data-beat="2"><b>الذيل ما بيحسب.</b><span>اللمسة مش كسر. أنا بدخل بس على <em>إغلاق</em> شمعة الدقيقة.</span></li>
+          <li data-beat="3"><b>كسر.</b><span>شمعة الدقيقة سكّرت فوق الخط — هون بدخل، بدقة الصقر.</span></li>
+          <li data-beat="4"><b>الهدف الأول — أمّن الكل.</b><span><bdi>3875.00</bdi> · بطلّع نص الصفقة، وبحط الستوب على الدخول.</span></li>
+          <li data-beat="5"><b>الهدف الثاني — كمان مرة.</b><span><bdi>3879.00</bdi> · والسيارة لسا بأول غيار.</span></li>
+          <li data-beat="6"><b>الهدف الثالث — كما راهنا.</b><span><bdi>3882.00</bdi> · خط النهاية.</span></li>
         </ol>
 
         <div class="method__summary" id="method-summary">
-          <p class="method__summary-date">١٧ نوفمبر ٢٠٢٦ · من البث</p>
+          <p class="method__summary-date">١٧ نوفمبر ٢٠٢٦ · من بثي</p>
           <p class="method__summary-line"><span>شراء فوق</span> <bdi>3870.00</bdi></p>
           <ul class="tp-row" aria-label="الأهداف">
             <li class="is-hit">TP1 <bdi>3875</bdi></li>
             <li class="is-hit">TP2 <bdi>3879</bdi></li>
             <li class="is-hit">TP3 <bdi>3882</bdi></li>
           </ul>
+          <p class="method__summary-stop">الستوب <bdi>3867.50</bdi> · 25 نقطة</p>
           <p class="method__summary-note">خط واحد · كسر واحد · ثلاث أهداف</p>
         </div>
       </div>
@@ -191,62 +192,57 @@
     <section class="who" id="who" aria-labelledby="who-title">
       <header class="section-head">
         <p class="section-head__no" dir="ltr">02</p>
-        <h2 class="section-head__title" id="who-title">مين عبود الشريان</h2>
+        <h2 class="section-head__title" id="who-title">من أنا</h2>
       </header>
       <div class="statements">
-        <p class="statement" data-split>متداول متمرّس ومحترف — <span class="gold">ذهب وكريبتو.</span></p>
-        <p class="statement" data-split>كل يوم مع افتتاح نيويورك: بث مباشر مجاني — <span class="gold">بدون أي شروط.</span></p>
-        <p class="statement" data-split>أكثر من <bdi class="gold">3,000</bdi> متداول بيدخلوا البث كل يوم.</p>
-        <p class="statement" data-split>وبيعلّم نفس الأسلوب، مباشرة، مع <span class="gold">متابعة 12 شهر.</span></p>
+        <p class="statement" data-split>أنا متداول متمرّس ومحترف — <span class="gold">ذهب وكريبتو.</span></p>
+        <p class="statement" data-split>كل يوم مع افتتاح نيويورك بفتح بث مباشر مجاني — <span class="gold">بدون أي شروط.</span></p>
+        <p class="statement" data-split>أكثر من <bdi class="gold">3,000</bdi> متداول بيدخلوا بثي كل يوم.</p>
+        <p class="statement" data-split>وبعلّم نفس الأسلوب، مباشرة، مع <span class="gold">متابعة 12 شهر.</span></p>
       </div>
 
       <div class="life" id="life">
         <div class="life__head">
-          <h3 class="life__title">طريقة عيشه</h3>
-          <p class="life__src">من حسابه على إنستغرام <a href="https://www.instagram.com/sshryyan/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a></p>
+          <h3 class="life__title">طريقة عيشي</h3>
+          <p class="life__src">من الريلز على حسابي <a href="https://www.instagram.com/sshryyan/reels/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a></p>
         </div>
         <div class="life__track" id="life-track">
-          <article class="life-card">
-            <p class="life-card__no" dir="ltr">01 / DUBAI</p>
-            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-dubai"/></svg>
-            <h4>الاستوديو على خط الأفق</h4>
-            <p>شاشات، كاميرا، وبرج خليفة بالشباك. من هون بيطلع البث.</p>
+          <article class="life-card life-card--reel">
+            <p class="life-card__no" dir="ltr">01 / ON AIR</p>
+            <div class="reel"><video class="reel__video" muted loop playsinline preload="none" poster="media/reels/studio-talk.jpg" src="media/reels/studio-talk.mp4" aria-label="عبود بالاستوديو بدبي بالليل"></video>
+              <button class="reel__voice" type="button" data-voice="studio"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي</button></div>
+            <h4>الاستوديو</h4>
+            <p>«لما نجحت، طلعت ما بحتاج إلا تليفوني، ولابتوب عشان أفتحلكم لايف، ويمكن مايك.»</p>
+          </article>
+          <article class="life-card life-card--reel">
+            <p class="life-card__no" dir="ltr">02 / DUBAI</p>
+            <div class="reel"><video class="reel__video" muted loop playsinline preload="none" poster="media/reels/studio-view.jpg" src="media/reels/studio-view.mp4" aria-label="مكتب البث وبرج خليفة بالشباك"></video></div>
+            <h4>مكتبي على خط الأفق</h4>
+            <p>برج خليفة بالشباك، والشارت قدامي. من هون بيطلع البث.</p>
+          </article>
+          <article class="life-card life-card--reel">
+            <p class="life-card__no" dir="ltr">03 / THE DRIVE</p>
+            <div class="reel"><video class="reel__video" muted loop playsinline preload="none" poster="media/reels/skyline-drive.jpg" src="media/reels/skyline-drive.mp4" aria-label="سواقة بشارع الشيخ زايد وناطحات دبي قدام"></video></div>
+            <h4>دبي من ورا الدركسيون</h4>
+            <p>بحب السيارات. والطريق بين بث وبث إلي.</p>
+          </article>
+          <article class="life-card life-card--reel">
+            <p class="life-card__no" dir="ltr">04 / THE ROAD</p>
+            <div class="reel"><video class="reel__video" muted loop playsinline preload="none" poster="media/reels/highway.jpg" src="media/reels/highway.mp4" aria-label="سواقة على الأوتوستراد بدبي"></video></div>
+            <h4>على الطريق</h4>
+            <p>السوق ما بيستنى… وأنا كمان.</p>
           </article>
           <article class="life-card life-card--photo">
-            <p class="life-card__no" dir="ltr">02 / TIMING</p>
-            <img class="life-card__img" src="img/rolex-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="ساعة رولكس GMT بإيد عبود جوا السيارة">
+            <p class="life-card__no" dir="ltr">05 / TIMING</p>
+            <img class="life-card__img" src="img/rolex-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="ساعة رولكس GMT بإيدي جوا السيارة">
             <h4>الوقت ذهب</h4>
-            <p>بالبث كل شي بالدقيقة: وقت الكسر، وإغلاق الشمعة.</p>
-          </article>
-          <article class="life-card">
-            <p class="life-card__no" dir="ltr">03 / FIRST CLASS</p>
-            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-plane"/></svg>
-            <h4>الطيارة مكتب تاني</h4>
-            <p>السوق ما بيستنى، والمستوى بينحط من أي مكان.</p>
-          </article>
-          <article class="life-card">
-            <p class="life-card__no" dir="ltr">04 / HORSEPOWER</p>
-            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-car"/></svg>
-            <h4>عاشق السيارات</h4>
-            <p>الرمل حلبة، والمحرك موسيقى. نفس شعور الكسر.</p>
-          </article>
-          <article class="life-card">
-            <p class="life-card__no" dir="ltr">05 / OFF THE CHART</p>
-            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-peaks"/></svg>
-            <h4>بين الجبل والبحر</h4>
-            <p>ثلج بمكان، وجرف على البحر بمكان تاني. الشارت مسكّر.</p>
-          </article>
-          <article class="life-card">
-            <p class="life-card__no" dir="ltr">06 / DISCIPLINE</p>
-            <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-gym"/></svg>
-            <h4>الانضباط بيبدأ من الجسم</h4>
-            <p>نفس قاعدة الستوب: التزام، مش مزاج.</p>
+            <p>ببثي كل شي بالدقيقة: وقت الكسر، وإغلاق الشمعة.</p>
           </article>
           <article class="life-card life-card--faith">
-            <p class="life-card__no" dir="ltr">07 / FAITH</p>
+            <p class="life-card__no" dir="ltr">06 / FAITH</p>
             <p class="life-card__quote" dir="ltr">Faith over everything.</p>
             <h4>الإيمان قبل كل شي</h4>
-            <p>أول سطر ببروفايله، وآخر كلمة بهالموقع.</p>
+            <p>أول سطر ببروفايلي، وآخر كلمة بهالموقع.</p>
           </article>
         </div>
       </div>
@@ -256,12 +252,12 @@
     <section class="numbers" id="numbers" aria-labelledby="numbers-title">
       <header class="section-head">
         <p class="section-head__no" dir="ltr">03</p>
-        <h2 class="section-head__title" id="numbers-title">عدّاد الجمهور</h2>
+        <h2 class="section-head__title" id="numbers-title">عدّاد جمهوري</h2>
       </header>
       <div class="gauges">
         <figure class="gauge" data-value="56044" data-max="60000" data-format="int">
           <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
-          <figcaption><b class="gauge__num" dir="ltr">56,044</b><span>مشترك بقناة التلغرام</span><small dir="ltr">t.me/aboudalsharyan</small></figcaption>
+          <figcaption><b class="gauge__num" dir="ltr">56,044</b><span>مشترك بقناتي على التلغرام</span><small dir="ltr">t.me/aboudalsharyan</small></figcaption>
         </figure>
         <figure class="gauge" data-value="62500" data-max="70000" data-format="k">
           <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
@@ -269,22 +265,22 @@
         </figure>
         <figure class="gauge" data-value="3000" data-max="3600" data-format="plus">
           <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
-          <figcaption><b class="gauge__num" dir="ltr">3,000+</b><span>متداول بالبث كل يوم</span><small dir="ltr">sharyan.io</small></figcaption>
+          <figcaption><b class="gauge__num" dir="ltr">3,000+</b><span>متداول ببثي كل يوم</span><small dir="ltr">sharyan.io</small></figcaption>
         </figure>
         <figure class="gauge" data-value="3094" data-max="3600" data-format="int">
           <svg viewBox="0 0 240 170" aria-hidden="true" class="gauge__svg"></svg>
           <figcaption><b class="gauge__num" dir="ltr">3,094</b><span>مشترك بـ Sharyan Funded</span><small dir="ltr">t.me/SharyanFunded</small></figcaption>
         </figure>
       </div>
-      <p class="numbers__total"><bdi class="gold">121K+</bdi> متابعة على منصاته الثلاث</p>
-      <p class="source-note">الأرقام كما ظهرت على صفحاته العامة بتاريخ ٢٦ نوفمبر ٢٠٢٦. رقم البث من sharyan.io.</p>
+      <p class="numbers__total"><bdi class="gold">121K+</bdi> متابعة على منصاتي الثلاث</p>
+      <p class="source-note">الأرقام كما ظهرت على صفحاتي العامة بتاريخ ٢٦ نوفمبر ٢٠٢٦. رقم البث من sharyan.io.</p>
     </section>
 
     <!-- ===== 04 TRADES ===== -->
     <section class="trades" id="trades" aria-labelledby="trades-title">
       <header class="section-head">
         <p class="section-head__no" dir="ltr">04</p>
-        <h2 class="section-head__title" id="trades-title">التداولات</h2>
+        <h2 class="section-head__title" id="trades-title">تداولاتي</h2>
       </header>
       <p class="trades__lede">سبع جلسات. سبع خطوط. <span class="gold">سبع كسرات.</span></p>
 
@@ -298,12 +294,12 @@
         </div>
         <div id="tower-body" role="rowgroup"></div>
       </div>
-      <p class="source-note">مستويات أعلنها عبود بالبث، مرصودة يوم بيوم (١٧–٢٥ نوفمبر ٢٠٢٦). للتوضيح — مش توصية ولا وعد بربح.</p>
+      <p class="source-note">مستويات أعلنتها ببثي، يوم بيوم (١٧–٢٥ نوفمبر ٢٠٢٦). للتوضيح — مش توصية ولا وعد بربح.</p>
 
       <div class="wall" id="wall">
         <div class="wall__head">
-          <h3 class="wall__title">من قلب القناة</h3>
-          <p class="wall__src">نتائج متابعين محوّلة لقناته، زي ما نشرها على <a href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a></p>
+          <h3 class="wall__title">من قلب قناتي</h3>
+          <p class="wall__src">نتائج متابعيني بقناتي، زي ما نشرتها على <a href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a></p>
         </div>
         <div class="wall__rows" id="wall-rows"></div>
       </div>
@@ -337,18 +333,18 @@
             <div class="gear-panel is-active" id="gear-1" role="tabpanel" aria-labelledby="tab-1">
               <p class="gear-panel__tag">مجاني · كل يوم</p>
               <h3>البث المباشر</h3>
-              <p>«أقوى بث على مستوى الوطن العربي، مجاني وبدون أي شروط» — بكلماته على موقعه. المستوى بينحط قدامك، والكسر بتشوفه لحظة بلحظة.</p>
+              <p>أقوى بث على مستوى الوطن العربي، مجاني وبدون أي شروط. بحطلك المستوى قدامك، وبتشوف الكسر معي لحظة بلحظة.</p>
               <ul class="facts">
-                <li><bdi>3,000+</bdi> متداول بالبث يومياً</li>
+                <li><bdi>3,000+</bdi> متداول ببثي يومياً</li>
                 <li>مع افتتاح نيويورك</li>
                 <li>ذهب وكريبتو</li>
               </ul>
-              <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+              <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل بثي مجاناً</a>
             </div>
             <div class="gear-panel" id="gear-2" role="tabpanel" aria-labelledby="tab-2" hidden>
               <p class="gear-panel__tag">مباشر · مقاعد محدودة</p>
               <h3>التدريب الشخصي المباشر</h3>
-              <p>نفس أسلوب البث تماماً، مع عبود مباشرة، و<b>12 شهر</b> متابعة شخصية مع الفريق بعد المحاضرات.</p>
+              <p>نفس أسلوب البث تماماً، معي مباشرة، و<b>12 شهر</b> متابعة شخصية مع فريقي بعد المحاضرات.</p>
               <ol class="modules" id="modules">
                 <li>أرقام الكسر</li>
                 <li>وهم مدارس التحليل</li>
@@ -360,13 +356,13 @@
                 <li>معادلة رأس المال</li>
                 <li>المتابعة الشخصية · 12 شهر</li>
               </ol>
-              <p class="gear-panel__quote">لا وعود بالربح. الضمان الوحيد إنك بتاخد نفس الأسلوب — زي ما هو مكتوب على موقعه.</p>
+              <p class="gear-panel__quote">ما بوعدك بربح. الضمان الوحيد إنك بتاخد نفس أسلوبي.</p>
               <a class="btn btn--gold" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer">قدّم على sharyan.io</a>
             </div>
             <div class="gear-panel" id="gear-3" role="tabpanel" aria-labelledby="tab-3" hidden>
               <p class="gear-panel__tag">قناة خاصة</p>
               <h3 dir="ltr">Sharyan Funded</h3>
-              <p>قناة خاصة بالحسابات الممولة وكل شي بيتعلق فيها، مع حساب دعم رسمي واحد.</p>
+              <p>قناتي الخاصة بالحسابات الممولة وكل شي بيتعلق فيها، مع حساب دعم رسمي واحد.</p>
               <ul class="facts">
                 <li><bdi>3,094</bdi> مشترك</li>
                 <li>الدعم: <bdi>@SharyanFundedSupport</bdi></li>
@@ -382,34 +378,46 @@
     <section class="quotes" id="quotes" aria-labelledby="quotes-title">
       <header class="section-head">
         <p class="section-head__no" dir="ltr">06</p>
-        <h2 class="section-head__title" id="quotes-title">قاموس البث</h2>
+        <h2 class="section-head__title" id="quotes-title">من بثّي</h2>
       </header>
-      <p class="quotes__lede">جمل بتسمعها بكل بث… وبتلزق بالراس. <span class="gold">اضغط على أي وحدة.</span></p>
+      <p class="quotes__lede">جمل بتسمعها مني بالبث والريلز. <span class="gold">اكبس على أي وحدة واسمعها بصوتي.</span></p>
       <div class="quotes__marquee" aria-hidden="true"><div class="quotes__track" id="quotes-track"></div></div>
       <div class="pads">
-        <button class="pad" type="button" data-fx="scratch">
-          <span class="pad__no" dir="ltr">#01 · ON AIR</span>
-          <span class="pad__quote">بكره الفقر… والفقراء.</span>
-          <span class="pad__sub" dir="ltr">Poverty? Blocked. Reported.</span>
-          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        <button class="pad" type="button" data-voice="yes">
+          <span class="pad__no" dir="ltr">#01 · LIVE</span>
+          <span class="pad__quote">يس! هود! اضرب!</span>
+          <span class="pad__sub">لما الشمعة الحمرا تنزل عالهدف.</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
         </button>
-        <button class="pad" type="button" data-fx="rise">
-          <span class="pad__no" dir="ltr">#02 · THE MISSION</span>
-          <span class="pad__quote">وبدي غيّره.</span>
-          <span class="pad__sub" dir="ltr">One level at a time.</span>
-          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        <button class="pad" type="button" data-voice="tp3">
+          <span class="pad__no" dir="ltr">#02 · TP HIT</span>
+          <span class="pad__quote">كما راهنا!</span>
+          <span class="pad__sub">لما الهدف يجي زي ما قلت بالضبط.</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
         </button>
-        <button class="pad" type="button" data-fx="cash">
-          <span class="pad__no" dir="ltr">#03 · THE TARGET</span>
-          <span class="pad__quote">بديش فقراء العرب.</span>
-          <span class="pad__sub" dir="ltr">Mission: zero broke Arabs.</span>
-          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        <button class="pad" type="button" data-voice="humble">
+          <span class="pad__no" dir="ltr">#03 · HUMBLE</span>
+          <span class="pad__quote">المتواضع عبود الشريان.</span>
+          <span class="pad__sub">التواضع: ١٠٠٪ 😄</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
         </button>
-        <button class="pad pad--wolf" type="button" data-fx="wolf">
-          <span class="pad__no" dir="ltr">#04 · TP HIT</span>
-          <span class="pad__quote">اضرب يا ذياب! 🐺</span>
-          <span class="pad__sub" dir="ltr">Target hit. Wolves, attack.</span>
-          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        <button class="pad" type="button" data-voice="poor">
+          <span class="pad__no" dir="ltr">#04 · DUBAI</span>
+          <span class="pad__quote">دبي مدينة رخيصة جداً… بس أغلب الناس فقراء!</span>
+          <span class="pad__sub">رأيي بعد التجربة 😄</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
+        </button>
+        <button class="pad" type="button" data-voice="expert">
+          <span class="pad__no" dir="ltr">#05 · REAL TALK</span>
+          <span class="pad__quote">هذا العالم صلب. خذها من خبير.</span>
+          <span class="pad__sub">نصيحة لكل واحد داخل السوق.</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
+        </button>
+        <button class="pad" type="button" data-voice="imagine">
+          <span class="pad__no" dir="ltr">#06 · VISION</span>
+          <span class="pad__quote">غمّض عينك وتخيّل حالك متداول ناجح.</span>
+          <span class="pad__sub">من هون بتبلش القصة.</span>
+          <span class="pad__play"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> اسمعها بصوتي <span class="pad__bar" aria-hidden="true"><i></i></span></span>
         </button>
       </div>
     </section>
@@ -420,17 +428,18 @@
         <canvas class="crew__canvas" id="crew-canvas" aria-hidden="true"></canvas>
         <header class="section-head section-head--abs">
           <p class="section-head__no" dir="ltr">07</p>
-          <h2 class="section-head__title" id="crew-title">مين معه</h2>
+          <h2 class="section-head__title" id="crew-title">مين معي</h2>
         </header>
         <div class="crew__captions">
-          <p class="crew__cap" data-cap="0">كل نقطة هون = <span class="gold">مشترك حقيقي</span> بقناته.</p>
+          <p class="crew__cap" data-cap="0">كل نقطة هون = <span class="gold">مشترك حقيقي</span> بقناتي.</p>
           <p class="crew__cap" data-cap="1"><bdi class="gold">56,044</bdi> واحد. ولسا العدّاد شغّال.</p>
-          <p class="crew__cap" data-cap="2">ومين بيدعمه؟ <span class="gold">ناسه.</span><br>كل يوم بيبعتوا نتائجهم للقناة.</p>
+          <p class="crew__cap" data-cap="2">ومين بيدعمني؟ <span class="gold">ناسي.</span><br>كل يوم بيبعتولي نتائجهم.</p>
         </div>
         <p class="crew__mouse" aria-hidden="true">حرّك الماوس بين الناس</p>
         <ul class="crew__list">
-          <li><b>فريق المتابعة</b><span>12 شهر مع كل متدرّب</span></li>
-          <li><b dir="ltr">3,000+</b><span>بالبث المباشر يومياً</span></li>
+          <li><b>فريقي</b><span>12 شهر مع كل متدرّب</span></li>
+          <li><b>ما إلي شركاء</b><span>قناتي الوحيدة هي قناة البث</span></li>
+          <li><b dir="ltr">3,000+</b><span>ببثي يومياً</span></li>
           <li><b dir="ltr">62.5K</b><span>على إنستغرام</span></li>
           <li><b dir="ltr">3,094</b><span>بقناة Sharyan Funded</span></li>
         </ul>
@@ -444,12 +453,13 @@
       </div>
       <h2 class="outro__title" id="outro-title" dir="ltr"><span>Faith</span> <span>over</span> <span>everything.</span></h2>
       <p class="outro__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span class="gold">$$</span></p>
+      <button class="outro__voice" type="button" data-voice="inside"><span class="voice-ico" aria-hidden="true"><i></i><i></i><i></i></span> «الله يوفقك، بشوفك جوا.»</button>
       <div class="outro__cta">
-        <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+        <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل بثي مجاناً</a>
         <a class="btn btn--ghost" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a>
         <a class="btn btn--ghost" href="https://www.instagram.com/sshryyan/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a>
       </div>
-      <p class="disclaimer">التداول فيه مخاطرة. ولا شي بهالصفحة توصية أو وعد بربح — وزي ما بيقول عبود: الضمان الوحيد هو الأسلوب.</p>
+      <p class="disclaimer">التداول فيه مخاطرة. ولا شي بهالصفحة توصية أو وعد بربح — وزي ما بقول دايماً: الضمان الوحيد هو الأسلوب.</p>
     </section>
   </main>
 

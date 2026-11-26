@@ -3,13 +3,14 @@
 // Devices that ask for reduced motion get the static page plus an offer to turn motion on (remembered).
 
 import { qs, qsa, reducedMotion } from './util.js';
-import { sound, readPref } from './audio.js';
+import { sound, readPref, writePref } from './audio.js';
+import { price } from './price.js';
 import { runIntro } from './intro.js';
 import { initHeroChart } from './hero.js';
 import { initMethod } from './method.js';
 import { initCrew } from './crew.js';
 import { initStatements, initLife, initGauges, initTower, initWall } from './sections.js';
-import { initServices, initQuotes, initOutro } from './sections2.js';
+import { initServices, initQuotes, initOutro, initVoices, initReels } from './sections2.js';
 import { initClock, initSoundUI, initMotionCard, initProgress, initCrosshair } from './hud.js';
 
 const { gsap, ScrollTrigger, Lenis } = window;
@@ -48,6 +49,7 @@ function boot(motion) {
   initWall({ reduced });
   initServices({ reduced });
   initQuotes({ reduced });
+  initReels({ reduced });
   initCrew({ reduced });
   initOutro({ reduced });
   initProgress(lenis);
@@ -75,7 +77,10 @@ function start() {
   });
 
   initClock();
+  price.start();
   const soundUI = initSoundUI();
+  initVoices({ onEnable: () => writePref('on') });
+  sound.onChange((on) => { if (on) sound.preloadVoices(['tp1', 'tp2', 'tp3', 'iam', 'inside']); });
   const motionCard = initMotionCard({ prefersReduced, forced });
 
   // Try to start sound straight away (works when the browser allows autoplay).
@@ -83,6 +88,8 @@ function start() {
 
   let heroChart = null;
   try { heroChart = boot(motion); } catch (err) { console.error(err); }
+  // the hero chart's labels sit at the live gold price
+  if (heroChart) price.first(4000).then((p) => heroChart.setPrice(p));
 
   runIntro({
     motion,

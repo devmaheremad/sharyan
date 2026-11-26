@@ -2,6 +2,7 @@
 
 import { qs, finePointer } from './util.js';
 import { sound, writePref } from './audio.js';
+import { price } from './price.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 const hms = (s) => `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`;
@@ -59,12 +60,13 @@ export function initSoundUI() {
   let armed = false;
   const unlock = async (e) => {
     // the card's own "off" link and the sound button handle themselves
-    if (e && e.target && e.target.closest && e.target.closest('#sound-off, #sound-toggle, #motion-on')) return;
+    if (e && e.target && e.target.closest && e.target.closest('#sound-off, #sound-toggle, #motion-on, [data-voice]')) return;
     disarm();
     if (await sound.enable()) {
       writePref('on');
       sound.chime();
-      sound.rev(0.9, 50, 170, 0.3);
+      // first sound he hears on the site: Aboud introducing himself
+      setTimeout(() => sound.voice('iam'), 500);
     }
     hideCard();
   };
@@ -84,7 +86,7 @@ export function initSoundUI() {
     disarm();
     hideCard();
     if (sound.enabled) { sound.disable(); writePref('off'); }
-    else if (await sound.enable()) { writePref('on'); sound.shift(); }
+    else if (await sound.enable()) { writePref('on'); sound.chime(); }
   });
   off.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -93,6 +95,8 @@ export function initSoundUI() {
     writePref('off');
     hideCard();
   });
+
+  sound.onChange((on) => { if (on) { disarm(); hideCard(); } });
 
   return {
     // After the intro: if sound is still blocked (and not turned off), show the card and arm "tap anywhere".
@@ -139,12 +143,14 @@ export function initCrosshair() {
   const line = qs('.crosshair__h', root);
   const tag = qs('.crosshair__tag', root);
   let y = -100, x = 0, raf = 0;
+  // the tag shows the real gold price, live
+  let label = 'XAUUSD …';
+  price.onChange((p) => { label = `XAUUSD ${p.toFixed(2)}`; if (y > 0) tag.textContent = label; });
   const paint = () => {
     raf = 0;
-    const price = 3900 - (y / window.innerHeight) * 60;
     line.style.transform = `translateY(${y}px)`;
-    tag.textContent = price.toFixed(2);
-    tag.style.transform = `translate(${Math.min(x + 14, window.innerWidth - 80)}px, ${y - 22}px)`;
+    tag.textContent = label;
+    tag.style.transform = `translate(${Math.min(x + 14, window.innerWidth - 150)}px, ${y - 22}px)`;
   };
   window.addEventListener('pointermove', (e) => {
     x = e.clientX; y = e.clientY;
