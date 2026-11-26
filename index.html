@@ -5,18 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https://cdn.shopify.com data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف. | تصوّر غير رسمي</title>
-  <meta name="description" content="تصوّر غير رسمي لموقع عن متداول الذهب عبود الشريان: طريقة الخط والكسر، البث المباشر المجاني، التدريب الشخصي، والأرقام كما هي على صفحاته العامة.">
-  <!-- Unofficial concept made for Aboud Al-Sharyan: keep it out of search results. -->
+  <title>عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف.</title>
+  <meta name="description" content="عبود الشريان: متداول محترف، بث مباشر مجاني كل يوم مع افتتاح نيويورك، طريقة الخط والكسر، والتدريب الشخصي. الأرقام كما هي على صفحاته العامة.">
+  <!-- Made by Maher for Aboud Al-Sharyan: keep it out of search results. -->
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="theme-color" content="#050505">
   <meta name="color-scheme" content="dark">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ar_AR">
-  <meta property="og:site_name" content="SHARYAN — Concept">
+  <meta property="og:site_name" content="SHARYAN">
   <meta property="og:title" content="عبود الشريان — خط واحد. كسر واحد. ثلاث أهداف.">
-  <meta property="og:description" content="Legally Printing With The Bo$$ — تصوّر موقع سينمائي بالصوت والحركة، مبني على طريقة عبود بالتداول.">
+  <meta property="og:description" content="Legally Printing With The Bo$$ — موقع سينمائي بالصوت والحركة، مبني على طريقة عبود بالتداول.">
   <meta property="og:image" content="https://devmaheremad.com/sharyan/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -26,8 +26,10 @@
   <link rel="canonical" href="https://devmaheremad.com/sharyan/">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 
+  <link rel="preload" href="fonts/alexandria-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/cairo-arabic-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/anton-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="img/aboud-night-1400.webp" imagesrcset="img/aboud-night-800.webp 800w, img/aboud-night-1400.webp 1400w" imagesizes="(max-width: 800px) 100vw, 50vw" fetchpriority="high">
   <link rel="preconnect" href="https://cdn.shopify.com">
   <link rel="stylesheet" href="css/style.css">
   <noscript><link rel="stylesheet" href="css/noscript.css"></noscript>
@@ -35,32 +37,19 @@
 <body class="is-locked">
   <a class="skip" href="#main">تخطَّ للمحتوى</a>
 
-  <!-- ===== Gate: the site opens by breaking a line ===== -->
-  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
-    <div class="gate__half gate__half--top"></div>
-    <div class="gate__half gate__half--bottom"></div>
-    <div class="gate__line" aria-hidden="true">
-      <span class="gate__price" dir="ltr">XAUUSD · M1 · 3870.00</span>
+  <!-- ===== Intro: loads like a price ticking up to the level, then the line breaks open ===== -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__half intro__half--top"></div>
+    <div class="intro__half intro__half--bottom"></div>
+    <div class="intro__top">
+      <p class="intro__brand" dir="ltr">SHARYAN</p>
+      <p class="intro__price" dir="ltr"><span id="intro-price">3800.00</span></p>
+      <p class="intro__tag"><span dir="ltr">XAUUSD · M1</span> · السعر بيقرّب من الخط</p>
     </div>
-    <div class="gate__inner gate__inner--top">
-      <p class="gate__eyebrow" dir="ltr">SHARYAN · CONCEPT</p>
-      <h2 class="gate__title" id="gate-title">
-        <span>السعر واقف على الخط.</span>
-        <span>شمعة وحدة بتسكّر… وبيطير.</span>
-      </h2>
-    </div>
-    <div class="gate__inner gate__inner--bottom">
-      <div class="gate__actions">
-        <button class="btn btn--gold" id="enter-sound" type="button">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
-          ادخل مع الصوت
-        </button>
-        <button class="btn btn--ghost" id="enter-mute" type="button">بدون صوت</button>
-      </div>
-      <p class="gate__hint">السماعات بتفرق 🎧</p>
-      <p class="gate__motion" id="gate-motion">جهازك مضبوط على «حركة أقل»، وهالموقع مبني على الحركة.
-        <button type="button" id="motion-toggle" aria-pressed="false">شغّل الحركة الكاملة</button>
-      </p>
+    <div class="intro__line"><span class="intro__fill" id="intro-fill"></span><span class="intro__level" dir="ltr">3870.00</span></div>
+    <div class="intro__bottom">
+      <p class="intro__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span>$$</span></p>
+      <p class="intro__pct" dir="ltr" id="intro-pct">00%</p>
     </div>
   </div>
 
@@ -68,16 +57,27 @@
   <header class="hud" aria-label="شريط الموقع">
     <a class="hud__brand" href="#top" aria-label="إلى الأعلى">
       <span class="hud__word" dir="ltr">SHARYAN</span>
-      <span class="hud__badge">تصوّر غير رسمي</span>
     </a>
     <div class="hud__clock" aria-live="off">
       <span class="hud__ny" dir="ltr"><b>NY</b> <span id="ny-time">--:--:--</span></span>
       <span class="hud__open" id="ny-open">…</span>
     </div>
-    <button class="hud__sound" id="sound-toggle" type="button" aria-pressed="false" aria-label="تشغيل الصوت">
-      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="hud__sound-label">الصوت</span>
-    </button>
+    <div class="hud__sound-wrap">
+      <button class="hud__sound" id="sound-toggle" type="button" aria-pressed="false" aria-label="تشغيل الصوت">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="hud__sound-label" dir="ltr">Sound</span>
+      </button>
+      <div class="hud__cards">
+      <div class="cue-card" id="sound-card" role="status" hidden>
+        <p class="cue-card__main"><span aria-hidden="true">🔊</span> <span id="sound-card-text">اضغط في أي مكان لتشغيل المؤثرات الصوتية</span></p>
+        <button class="cue-card__link" id="sound-off" type="button">لا تريد الصوت؟ أوقف</button>
+      </div>
+      <div class="cue-card cue-card--motion" id="motion-card" role="status" hidden>
+        <p class="cue-card__main">جهازك مضبوط على «حركة أقل»، والموقع مبني على الحركة.</p>
+        <button class="cue-card__link" id="motion-on" type="button">شغّل الحركة الكاملة</button>
+      </div>
+      </div>
+    </div>
     <div class="hud__progress" aria-hidden="true"><span id="progress-fill"></span></div>
   </header>
 
@@ -91,18 +91,15 @@
     <section class="hero" id="top" aria-labelledby="hero-title">
       <canvas class="hero__chart" id="hero-chart" aria-hidden="true"></canvas>
       <figure class="hero__photo">
-        <img id="hero-img"
-             src="https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=1400"
-             srcset="https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=900 900w,
-                     https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=1400 1400w,
-                     https://cdn.shopify.com/s/files/1/0655/6080/5481/files/1022_final.png?v=1792664959&amp;width=2000 2000w"
-             sizes="(max-width: 800px) 100vw, 55vw"
-             width="1400" height="788" fetchpriority="high" decoding="async"
-             alt="عبود الشريان في الاستوديو — من صفحة sharyan.io">
-        <figcaption class="visually-hidden">الصورة من موقعه sharyan.io</figcaption>
+        <img id="hero-img" src="img/aboud-night-1400.webp"
+             srcset="img/aboud-night-800.webp 800w, img/aboud-night-1400.webp 1400w"
+             sizes="(max-width: 800px) 100vw, 50vw"
+             width="1400" height="1750" fetchpriority="high" decoding="async"
+             alt="عبود الشريان بالليل في دبي جنب سيارته، شنط السفر جاهزة والتلفون على أذنه">
+        <figcaption class="visually-hidden">من حسابه على إنستغرام، دبي، أغسطس ٢٠٢٦</figcaption>
       </figure>
       <div class="hero__content">
-        <p class="eyebrow"><span dir="ltr">XAUUSD</span> · متداول ذهب · افتتاح نيويورك</p>
+        <p class="eyebrow">متداول محترف · ذهب وكريبتو · بث يومي مع افتتاح نيويورك</p>
         <h1 class="hero__title" id="hero-title">
           <span class="word">عبود</span>
           <span class="word word--gold">الشريان</span>
@@ -141,6 +138,11 @@
               <stop offset="0" stop-color="#d4a94f" stop-opacity="0"/>
               <stop offset="1" stop-color="#f1d488" stop-opacity=".9"/>
             </linearGradient>
+            <radialGradient id="g-dust">
+              <stop offset="0" stop-color="#d9c9a3" stop-opacity=".55"/>
+              <stop offset=".6" stop-color="#a8916a" stop-opacity=".18"/>
+              <stop offset="1" stop-color="#a8916a" stop-opacity="0"/>
+            </radialGradient>
             <pattern id="checker" width="16" height="16" patternUnits="userSpaceOnUse">
               <rect width="16" height="16" fill="#f4f1ea"/>
               <rect width="8" height="8" fill="#050505"/>
@@ -155,9 +157,11 @@
           <path id="m-run" class="m-run" d=""/>
           <g id="m-wick-mark"></g>
           <g id="m-break"></g>
+          <g id="m-dust" class="m-dust"></g>
           <g id="m-car" class="m-car"></g>
           <g id="m-falcon" class="m-falcon"></g>
           <g id="m-flag"></g>
+          <g id="m-wolves" class="m-wolves"></g>
         </svg>
 
         <ol class="method__captions" id="method-captions">
@@ -167,7 +171,7 @@
           <li data-beat="3"><b>كسر.</b><span>شمعة الدقيقة سكّرت فوق الخط — هون الدخول، بدقة الصقر.</span></li>
           <li data-beat="4"><b>الهدف الأول — أمّن الكل.</b><span><bdi>3875.00</bdi> · نص الصفقة بره، والستوب على الدخول.</span></li>
           <li data-beat="5"><b>الهدف الثاني.</b><span><bdi>3879.00</bdi> · والسيارة لسا بأول غيار.</span></li>
-          <li data-beat="6"><b>الهدف الثالث.</b><span><bdi>3882.00</bdi> · خط النهاية.</span></li>
+          <li data-beat="6"><b>الهدف الثالث — اضرب يا ذياب.</b><span><bdi>3882.00</bdi> · خط النهاية.</span></li>
         </ol>
 
         <div class="method__summary" id="method-summary">
@@ -190,7 +194,7 @@
         <h2 class="section-head__title" id="who-title">مين عبود الشريان</h2>
       </header>
       <div class="statements">
-        <p class="statement" data-split>متداول ذهب. <span class="gold">بس ذهب.</span></p>
+        <p class="statement" data-split>متداول متمرّس ومحترف — <span class="gold">ذهب وكريبتو.</span></p>
         <p class="statement" data-split>كل يوم مع افتتاح نيويورك: بث مباشر مجاني — <span class="gold">بدون أي شروط.</span></p>
         <p class="statement" data-split>أكثر من <bdi class="gold">3,000</bdi> متداول بيدخلوا البث كل يوم.</p>
         <p class="statement" data-split>وبيعلّم نفس الأسلوب، مباشرة، مع <span class="gold">متابعة 12 شهر.</span></p>
@@ -208,32 +212,38 @@
             <h4>الاستوديو على خط الأفق</h4>
             <p>شاشات، كاميرا، وبرج خليفة بالشباك. من هون بيطلع البث.</p>
           </article>
+          <article class="life-card life-card--photo">
+            <p class="life-card__no" dir="ltr">02 / TIMING</p>
+            <img class="life-card__img" src="img/rolex-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="ساعة رولكس GMT بإيد عبود جوا السيارة">
+            <h4>الوقت ذهب</h4>
+            <p>بالبث كل شي بالدقيقة: وقت الكسر، وإغلاق الشمعة.</p>
+          </article>
           <article class="life-card">
-            <p class="life-card__no" dir="ltr">02 / FIRST CLASS</p>
+            <p class="life-card__no" dir="ltr">03 / FIRST CLASS</p>
             <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-plane"/></svg>
             <h4>الطيارة مكتب تاني</h4>
             <p>السوق ما بيستنى، والمستوى بينحط من أي مكان.</p>
           </article>
           <article class="life-card">
-            <p class="life-card__no" dir="ltr">03 / HORSEPOWER</p>
+            <p class="life-card__no" dir="ltr">04 / HORSEPOWER</p>
             <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-car"/></svg>
             <h4>عاشق السيارات</h4>
             <p>الرمل حلبة، والمحرك موسيقى. نفس شعور الكسر.</p>
           </article>
           <article class="life-card">
-            <p class="life-card__no" dir="ltr">04 / OFF THE CHART</p>
+            <p class="life-card__no" dir="ltr">05 / OFF THE CHART</p>
             <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-peaks"/></svg>
             <h4>بين الجبل والبحر</h4>
             <p>ثلج بمكان، وجرف على البحر بمكان تاني. الشارت مسكّر.</p>
           </article>
           <article class="life-card">
-            <p class="life-card__no" dir="ltr">05 / DISCIPLINE</p>
+            <p class="life-card__no" dir="ltr">06 / DISCIPLINE</p>
             <svg class="life-card__art" viewBox="0 0 400 260" aria-hidden="true"><use href="#art-gym"/></svg>
             <h4>الانضباط بيبدأ من الجسم</h4>
             <p>نفس قاعدة الستوب: التزام، مش مزاج.</p>
           </article>
           <article class="life-card life-card--faith">
-            <p class="life-card__no" dir="ltr">06 / FAITH</p>
+            <p class="life-card__no" dir="ltr">07 / FAITH</p>
             <p class="life-card__quote" dir="ltr">Faith over everything.</p>
             <h4>الإيمان قبل كل شي</h4>
             <p>أول سطر ببروفايله، وآخر كلمة بهالموقع.</p>
@@ -288,7 +298,7 @@
         </div>
         <div id="tower-body" role="rowgroup"></div>
       </div>
-      <p class="source-note">مستويات أعلنها عبود بالبث ورصدها ماهر يوم بيوم (١٧–٢٥ نوفمبر ٢٠٢٦). رصد شخصي للتوضيح — مش توصية ولا وعد بربح.</p>
+      <p class="source-note">مستويات أعلنها عبود بالبث، مرصودة يوم بيوم (١٧–٢٥ نوفمبر ٢٠٢٦). للتوضيح — مش توصية ولا وعد بربح.</p>
 
       <div class="wall" id="wall">
         <div class="wall__head">
@@ -299,84 +309,125 @@
       </div>
     </section>
 
-    <!-- ===== 05 SERVICES (gear shifter) ===== -->
+    <!-- ===== 05 SERVICES (engine start buttons) ===== -->
     <section class="services" id="services" aria-labelledby="services-title">
       <header class="section-head">
         <p class="section-head__no" dir="ltr">05</p>
-        <h2 class="section-head__title" id="services-title">بدّل الغيار</h2>
+        <h2 class="section-head__title" id="services-title">شغّل المحرّك</h2>
       </header>
-      <div class="shifter">
-        <div class="shifter__box">
-          <svg class="shifter__gate" viewBox="0 -6 220 252" aria-hidden="true">
-            <path d="M40 40 V200 M110 40 V200 M180 40 V120 M40 120 H180" />
-            <text x="40" y="12">1</text><text x="40" y="238">2</text>
-            <text x="110" y="12">3</text><text x="110" y="238">4</text>
-            <text x="180" y="12">5</text>
-            <circle class="shifter__knob" id="shifter-knob" cx="40" cy="40" r="18"/>
-          </svg>
-          <div class="shifter__buttons" role="tablist" aria-label="الخدمات">
-            <button role="tab" id="tab-1" aria-controls="gear-1" aria-selected="true" data-gear="1" type="button"><b dir="ltr">1</b> البث المباشر</button>
-            <button role="tab" id="tab-2" aria-controls="gear-2" aria-selected="false" data-gear="2" type="button" tabindex="-1"><b dir="ltr">2</b> التدريب الشخصي</button>
-            <button role="tab" id="tab-3" aria-controls="gear-3" aria-selected="false" data-gear="3" type="button" tabindex="-1"><b dir="ltr">3</b> <span dir="ltr">Sharyan Funded</span></button>
-          </div>
+      <p class="services__hint"><span class="tap" aria-hidden="true"></span> اضغط أي زر تشغيل — كل زر خدمة</p>
+      <div class="dash">
+        <div class="dash__buttons" role="tablist" aria-label="الخدمات" aria-orientation="vertical">
+          <button class="start" role="tab" id="tab-1" aria-controls="gear-1" aria-selected="true" data-gear="1" type="button">
+            <span class="start__btn" aria-hidden="true"><span class="start__face"><small dir="ltr">ENGINE</small><b dir="ltr">START</b><small dir="ltr">01</small></span></span>
+            <span class="start__label"><b>البث المباشر</b><small>مجاني · كل يوم</small></span>
+          </button>
+          <button class="start" role="tab" id="tab-2" aria-controls="gear-2" aria-selected="false" data-gear="2" type="button" tabindex="-1">
+            <span class="start__btn" aria-hidden="true"><span class="start__face"><small dir="ltr">ENGINE</small><b dir="ltr">START</b><small dir="ltr">02</small></span></span>
+            <span class="start__label"><b>التدريب الشخصي</b><small>مباشر · مقاعد محدودة</small></span>
+          </button>
+          <button class="start" role="tab" id="tab-3" aria-controls="gear-3" aria-selected="false" data-gear="3" type="button" tabindex="-1">
+            <span class="start__btn" aria-hidden="true"><span class="start__face"><small dir="ltr">ENGINE</small><b dir="ltr">START</b><small dir="ltr">03</small></span></span>
+            <span class="start__label"><b dir="ltr">Sharyan Funded</b><small>قناة خاصة</small></span>
+          </button>
         </div>
-        <div class="shifter__panels">
-          <div class="gear-panel is-active" id="gear-1" role="tabpanel" aria-labelledby="tab-1">
-            <p class="gear-panel__tag">مجاني · كل يوم</p>
-            <h3>البث المباشر</h3>
-            <p>«أقوى بث على مستوى الوطن العربي، مجاني وبدون أي شروط» — بكلماته على موقعه. المستوى بينحط قدامك، والكسر بتشوفه لحظة بلحظة.</p>
-            <ul class="facts">
-              <li><bdi>3,000+</bdi> متداول بالبث يومياً</li>
-              <li>مع افتتاح نيويورك</li>
-              <li>ذهب <bdi>XAUUSD</bdi></li>
-            </ul>
-            <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
-          </div>
-          <div class="gear-panel" id="gear-2" role="tabpanel" aria-labelledby="tab-2" hidden>
-            <p class="gear-panel__tag">مباشر · مقاعد محدودة</p>
-            <h3>التدريب الشخصي المباشر</h3>
-            <p>نفس أسلوب البث تماماً، مع عبود مباشرة، و<b>12 شهر</b> متابعة شخصية مع الفريق بعد المحاضرات.</p>
-            <ol class="modules" id="modules">
-              <li>أرقام الكسر</li>
-              <li>وهم مدارس التحليل</li>
-              <li>حقيقة الفيبوناتشي</li>
-              <li>رقم الكسر الصحيح</li>
-              <li>كشف خدعة التداول</li>
-              <li>وقت الكسر</li>
-              <li>البحث عن صفقة البث</li>
-              <li>معادلة رأس المال</li>
-              <li>المتابعة الشخصية · 12 شهر</li>
-            </ol>
-            <p class="gear-panel__quote">لا وعود بالربح. الضمان الوحيد إنك بتاخد نفس الأسلوب — زي ما هو مكتوب على موقعه.</p>
-            <a class="btn btn--gold" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer">قدّم على sharyan.io</a>
-          </div>
-          <div class="gear-panel" id="gear-3" role="tabpanel" aria-labelledby="tab-3" hidden>
-            <p class="gear-panel__tag">قناة خاصة</p>
-            <h3 dir="ltr">Sharyan Funded</h3>
-            <p>قناة خاصة بالحسابات الممولة وكل شي بيتعلق فيها، مع حساب دعم رسمي واحد.</p>
-            <ul class="facts">
-              <li><bdi>3,094</bdi> مشترك</li>
-              <li>الدعم: <bdi>@SharyanFundedSupport</bdi></li>
-            </ul>
-            <a class="btn btn--gold" href="https://t.me/SharyanFunded" target="_blank" rel="noopener noreferrer">افتح القناة</a>
+        <div class="dash__screen">
+          <div class="dash__status" dir="ltr"><span id="dash-mode">MODE 01 · LIVE STREAM</span><span class="dash__rpm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          <div class="dash__panels" id="dash-panels">
+            <div class="gear-panel is-active" id="gear-1" role="tabpanel" aria-labelledby="tab-1">
+              <p class="gear-panel__tag">مجاني · كل يوم</p>
+              <h3>البث المباشر</h3>
+              <p>«أقوى بث على مستوى الوطن العربي، مجاني وبدون أي شروط» — بكلماته على موقعه. المستوى بينحط قدامك، والكسر بتشوفه لحظة بلحظة.</p>
+              <ul class="facts">
+                <li><bdi>3,000+</bdi> متداول بالبث يومياً</li>
+                <li>مع افتتاح نيويورك</li>
+                <li>ذهب وكريبتو</li>
+              </ul>
+              <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
+            </div>
+            <div class="gear-panel" id="gear-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+              <p class="gear-panel__tag">مباشر · مقاعد محدودة</p>
+              <h3>التدريب الشخصي المباشر</h3>
+              <p>نفس أسلوب البث تماماً، مع عبود مباشرة، و<b>12 شهر</b> متابعة شخصية مع الفريق بعد المحاضرات.</p>
+              <ol class="modules" id="modules">
+                <li>أرقام الكسر</li>
+                <li>وهم مدارس التحليل</li>
+                <li>حقيقة الفيبوناتشي</li>
+                <li>رقم الكسر الصحيح</li>
+                <li>كشف خدعة التداول</li>
+                <li>وقت الكسر</li>
+                <li>البحث عن صفقة البث</li>
+                <li>معادلة رأس المال</li>
+                <li>المتابعة الشخصية · 12 شهر</li>
+              </ol>
+              <p class="gear-panel__quote">لا وعود بالربح. الضمان الوحيد إنك بتاخد نفس الأسلوب — زي ما هو مكتوب على موقعه.</p>
+              <a class="btn btn--gold" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer">قدّم على sharyan.io</a>
+            </div>
+            <div class="gear-panel" id="gear-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+              <p class="gear-panel__tag">قناة خاصة</p>
+              <h3 dir="ltr">Sharyan Funded</h3>
+              <p>قناة خاصة بالحسابات الممولة وكل شي بيتعلق فيها، مع حساب دعم رسمي واحد.</p>
+              <ul class="facts">
+                <li><bdi>3,094</bdi> مشترك</li>
+                <li>الدعم: <bdi>@SharyanFundedSupport</bdi></li>
+              </ul>
+              <a class="btn btn--gold" href="https://t.me/SharyanFunded" target="_blank" rel="noopener noreferrer">افتح القناة</a>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== 06 CREW (56,044 particles) ===== -->
+    <!-- ===== 06 QUOTES (stream dictionary) ===== -->
+    <section class="quotes" id="quotes" aria-labelledby="quotes-title">
+      <header class="section-head">
+        <p class="section-head__no" dir="ltr">06</p>
+        <h2 class="section-head__title" id="quotes-title">قاموس البث</h2>
+      </header>
+      <p class="quotes__lede">جمل بتسمعها بكل بث… وبتلزق بالراس. <span class="gold">اضغط على أي وحدة.</span></p>
+      <div class="quotes__marquee" aria-hidden="true"><div class="quotes__track" id="quotes-track"></div></div>
+      <div class="pads">
+        <button class="pad" type="button" data-fx="scratch">
+          <span class="pad__no" dir="ltr">#01 · ON AIR</span>
+          <span class="pad__quote">بكره الفقر… والفقراء.</span>
+          <span class="pad__sub" dir="ltr">Poverty? Blocked. Reported.</span>
+          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        </button>
+        <button class="pad" type="button" data-fx="rise">
+          <span class="pad__no" dir="ltr">#02 · THE MISSION</span>
+          <span class="pad__quote">وبدي غيّره.</span>
+          <span class="pad__sub" dir="ltr">One level at a time.</span>
+          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        </button>
+        <button class="pad" type="button" data-fx="cash">
+          <span class="pad__no" dir="ltr">#03 · THE TARGET</span>
+          <span class="pad__quote">بديش فقراء العرب.</span>
+          <span class="pad__sub" dir="ltr">Mission: zero broke Arabs.</span>
+          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        </button>
+        <button class="pad pad--wolf" type="button" data-fx="wolf">
+          <span class="pad__no" dir="ltr">#04 · TP HIT</span>
+          <span class="pad__quote">اضرب يا ذياب! 🐺</span>
+          <span class="pad__sub" dir="ltr">Target hit. Wolves, attack.</span>
+          <span class="pad__play" aria-hidden="true"><i></i><i></i><i></i> اسمعها</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== 07 CREW (56,044 particles) ===== -->
     <section class="crew" id="crew" aria-labelledby="crew-title">
       <div class="crew__stage">
         <canvas class="crew__canvas" id="crew-canvas" aria-hidden="true"></canvas>
         <header class="section-head section-head--abs">
-          <p class="section-head__no" dir="ltr">06</p>
+          <p class="section-head__no" dir="ltr">07</p>
           <h2 class="section-head__title" id="crew-title">مين معه</h2>
         </header>
         <div class="crew__captions">
           <p class="crew__cap" data-cap="0">كل نقطة هون = <span class="gold">مشترك حقيقي</span> بقناته.</p>
           <p class="crew__cap" data-cap="1"><bdi class="gold">56,044</bdi> واحد. ولسا العدّاد شغّال.</p>
-          <p class="crew__cap" data-cap="2">ومين بيدعمه؟ <span class="gold">ناسه.</span> كل يوم بيبعتوا نتائجهم للقناة.</p>
+          <p class="crew__cap" data-cap="2">ومين بيدعمه؟ <span class="gold">ناسه.</span><br>كل يوم بيبعتوا نتائجهم للقناة.</p>
         </div>
+        <p class="crew__mouse" aria-hidden="true">حرّك الماوس بين الناس</p>
         <ul class="crew__list">
           <li><b>فريق المتابعة</b><span>12 شهر مع كل متدرّب</span></li>
           <li><b dir="ltr">3,000+</b><span>بالبث المباشر يومياً</span></li>
@@ -388,23 +439,23 @@
 
     <!-- ===== OUTRO ===== -->
     <section class="outro" id="outro" aria-labelledby="outro-title">
-      <svg class="outro__falcon" viewBox="0 0 600 300" aria-hidden="true"><use href="#falcon"/></svg>
-      <h2 class="outro__title" id="outro-title" dir="ltr">Faith over everything.</h2>
+      <div class="outro__sky" id="outro-sky">
+        <svg class="outro__falcon" id="outro-falcon" viewBox="0 0 600 300" aria-hidden="true"><use href="#falcon"/></svg>
+      </div>
+      <h2 class="outro__title" id="outro-title" dir="ltr"><span>Faith</span> <span>over</span> <span>everything.</span></h2>
       <p class="outro__slogan" dir="ltr">LEGALLY PRINTING WITH THE BO<span class="gold">$$</span></p>
       <div class="outro__cta">
         <a class="btn btn--gold" href="https://t.me/aboudalsharyan" target="_blank" rel="noopener noreferrer">ادخل البث مجاناً</a>
         <a class="btn btn--ghost" href="https://sharyan.io/" target="_blank" rel="noopener noreferrer" dir="ltr">sharyan.io</a>
         <a class="btn btn--ghost" href="https://www.instagram.com/sshryyan/" target="_blank" rel="noopener noreferrer" dir="ltr">@sshryyan</a>
       </div>
-
-      <aside class="signature" id="signature" aria-label="عن هذا الموقع">
-        <p class="signature__kicker" dir="ltr">CONCEPT · 2026</p>
-        <p class="signature__text">هالموقع <b>تصوّر غير رسمي</b> صمّمه ماهر لعبود الشريان — هدية، وبداية حديث. مش الموقع الرسمي، وكل الأرقام فيه من صفحاتك العامة.</p>
-        <p class="signature__text">إذا عجبك الشغل، خلّينا نكمّله سوا.</p>
-      </aside>
       <p class="disclaimer">التداول فيه مخاطرة. ولا شي بهالصفحة توصية أو وعد بربح — وزي ما بيقول عبود: الضمان الوحيد هو الأسلوب.</p>
     </section>
   </main>
+
+  <footer class="credit">
+    <p>تصميم وتنفيذ: ماهر</p>
+  </footer>
 
   <!-- Lightbox for the proof wall -->
   <dialog class="lightbox" id="lightbox" aria-label="صورة من القناة">
@@ -464,9 +515,11 @@
       </g>
     </symbol>
     <symbol id="falcon" viewBox="0 0 600 300">
-      <!-- Stylised stooping falcon: wings swept back, beak forward (to the left). -->
-      <path d="M40 150 L88 136 L112 142 L150 128 L250 96 L420 20 L360 92 L560 64 L404 134 L520 170 L380 168 L300 186 L230 210 L180 196 L140 184 L112 166 L88 166 Z"/>
-      <path class="falcon-eye" d="M96 146 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"/>
+      <!-- Stylised falcon in flight, beak to the left; wings are separate so they can flap. -->
+      <g class="f-wing f-wing--far"><path d="M262 166 Q312 222 414 252 Q366 208 344 178 Z"/></g>
+      <g class="f-body"><path d="M58 150 L80 141 L96 135 Q126 124 170 128 L330 140 Q420 147 472 158 L536 148 Q566 171 536 194 L462 184 Q400 186 330 178 L170 174 Q124 174 98 165 L84 161 Z"/></g>
+      <g class="f-wing f-wing--near"><path d="M228 146 Q260 66 328 14 Q354 -2 370 10 Q340 58 332 92 Q386 42 446 30 Q416 82 364 116 Q424 102 478 106 Q426 132 302 154 Z"/></g>
+      <path class="falcon-eye" d="M100 145 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0"/>
     </symbol>
   </svg>
 

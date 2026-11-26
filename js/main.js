@@ -1,37 +1,37 @@
-// SHARYAN concept — entry point.
-// The page is static by default. After the gate, "motion" mode adds the pinned, scroll-driven film.
+// SHARYAN — entry point.
+// The page is static by default; "motion" mode adds the pinned, scroll-driven film.
+// Devices that ask for reduced motion get the static page plus an offer to turn motion on (remembered).
 
 import { qs, qsa, reducedMotion } from './util.js';
-import { sound } from './audio.js';
-import { initGate } from './gate.js';
+import { sound, readPref } from './audio.js';
+import { runIntro } from './intro.js';
 import { initHeroChart } from './hero.js';
 import { initMethod } from './method.js';
 import { initCrew } from './crew.js';
-import { initStatements, initLife, initGauges, initTower, initWall, initGears, initOutro } from './sections.js';
-import { initClock, initSoundToggle, initProgress, initCrosshair } from './hud.js';
+import { initStatements, initLife, initGauges, initTower, initWall } from './sections.js';
+import { initServices, initQuotes, initOutro } from './sections2.js';
+import { initClock, initSoundUI, initMotionCard, initProgress, initCrosshair } from './hud.js';
 
 const { gsap, ScrollTrigger, Lenis } = window;
 let lenis = null;
-let heroChart = null;
 
 function heroIntro() {
   const tl = gsap.timeline();
-  tl.from('.hero__photo img', { scale: 1.18, filter: 'grayscale(1) contrast(1.25) brightness(0)', duration: 1.6, ease: 'expo.out', clearProps: 'filter,transform' }, 0)
-    .from('.hero__title .word', { yPercent: 105, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.12 }, 0.15)
-    .from('.hero__slogan', { opacity: 0, letterSpacing: '0.6em', duration: 1.1, ease: 'expo.out', clearProps: 'letterSpacing' }, 0.45)
-    .from('.hero .eyebrow, .hero__lede, .hero__chips li, .hero__cta > *', { opacity: 0, y: 18, duration: 0.6, ease: 'power3.out', stagger: 0.06 }, 0.6)
-    .from('.hud', { opacity: 0, y: -12, duration: 0.6 }, 0.5);
+  tl.from('.hero__photo img', { scale: 1.16, filter: 'saturate(.85) contrast(1.08) brightness(0)', duration: 1.7, ease: 'expo.out', clearProps: 'filter,transform' }, 0)
+    .from('.hero__title .word', { yPercent: 60, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.14 }, 0.15)
+    .from('.hero__slogan', { opacity: 0, letterSpacing: '0.5em', duration: 1.1, ease: 'expo.out', clearProps: 'letterSpacing' }, 0.5)
+    .from('.hero .eyebrow, .hero__lede, .hero__chips li, .hero__cta > *', { opacity: 0, y: 18, duration: 0.6, ease: 'power3.out', stagger: 0.06 }, 0.65)
+    .from('.hud', { opacity: 0, y: -12, duration: 0.6 }, 0.55);
 }
 
-// Build every section, in motion or static mode.
 function boot(motion) {
-  const reduced = !motion || !gsap || !ScrollTrigger;
-  if (!reduced) {
+  const reduced = !motion;
+  if (motion) {
     document.documentElement.classList.add('motion');
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
     if (Lenis) {
-      lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
@@ -39,29 +39,28 @@ function boot(motion) {
       lenis.on('scroll', (e) => sound.energy(Math.abs(e.velocity) / 60));
     }
   }
-
-  heroChart = initHeroChart(qs('#hero-chart'), { reduced });
+  const heroChart = initHeroChart(qs('#hero-chart'), { reduced });
   initMethod({ reduced });
   initStatements({ reduced });
   initLife({ reduced });
   initGauges({ reduced });
   initTower({ reduced });
   initWall({ reduced });
-  initGears({ reduced });
+  initServices({ reduced });
+  initQuotes({ reduced });
   initCrew({ reduced });
   initOutro({ reduced });
   initProgress(lenis);
-  if (!reduced) initCrosshair();
-  if (!reduced) gsap.set('.hero__content, .hero__photo', { opacity: 0 });
-  return reduced;
+  if (motion) initCrosshair();
+  if (motion) gsap.set('.hero__content, .hero__photo', { opacity: 0 });
+  return heroChart;
 }
 
 function start() {
   document.documentElement.classList.add('js');
-  const heroImg = qs('#hero-img');
-  const failImg = () => heroImg.closest('.hero__photo').classList.add('is-failed');
-  heroImg.addEventListener('error', failImg);
-  if (heroImg.complete && heroImg.naturalWidth === 0) failImg();
+  const prefersReduced = reducedMotion();
+  const forced = readPref('sharyan.motion') === 'on';
+  const motion = (!prefersReduced || forced) && !!gsap && !!ScrollTrigger;
 
   // in-page links glide with Lenis
   qsa('a[href^="#"]').forEach((a) => {
@@ -76,24 +75,27 @@ function start() {
   });
 
   initClock();
-  initSoundToggle();
+  const soundUI = initSoundUI();
+  const motionCard = initMotionCard({ prefersReduced, forced });
 
-  let reduced = true;
-  initGate({
-    prefersReduced: reducedMotion(),
-    onChoose: (motion) => {
-      try { reduced = boot(motion); } catch (err) { console.error(err); reduced = true; }
-    },
-    onOpen: () => {
-      if (!reduced) {
+  // Try to start sound straight away (works when the browser allows autoplay).
+  if (sound.pref !== 'off') sound.tryAutoplay();
+
+  let heroChart = null;
+  try { heroChart = boot(motion); } catch (err) { console.error(err); }
+
+  runIntro({
+    motion,
+    onDone: () => {
+      if (motion) {
         gsap.set('.hero__content, .hero__photo', { opacity: 1 });
         heroIntro();
-        heroChart.start();
         if (lenis) lenis.start();
         ScrollTrigger.refresh();
-        // fonts change metrics: re-measure the pins once they are in
         if (document.fonts) document.fonts.ready.then(() => ScrollTrigger.refresh());
       }
+      if (heroChart) heroChart.start();
+      setTimeout(() => { soundUI.afterIntro(); motionCard.afterIntro(); }, motion ? 900 : 200);
     },
   });
 }
@@ -101,8 +103,8 @@ function start() {
 try {
   start();
 } catch (err) {
-  // never leave visitors stuck behind the gate
+  // never leave visitors stuck behind the intro
   console.error(err);
-  qs('#gate')?.classList.add('is-gone');
+  qs('#intro')?.classList.add('is-gone');
   document.body.classList.remove('is-locked');
 }

@@ -117,6 +117,8 @@ export function initHeroChart(canvas, { reduced }) {
 
   function draw() {
     c2d.clearRect(0, 0, W, H);
+    c2d.direction = 'ltr';
+    c2d.textAlign = 'left';
     const count = Math.floor((W * 0.94) / STEP);
     const list = candles.slice(-(count - 1)).concat(cur ? [cur] : []);
     let mn = Infinity, mx = -Infinity;
@@ -154,6 +156,12 @@ export function initHeroChart(canvas, { reduced }) {
         c2d.font = '700 11px "JB Mono", monospace';
         c2d.fillText(`TP${i + 1}${hit ? ' ✓' : ''}`, 14, py - 6);
       });
+      if (cycle.hits >= 3) {
+        // his call when the last target lands
+        c2d.fillStyle = GOLD_HI;
+        c2d.font = '800 20px Alexandria, Cairo, sans-serif';
+        c2d.fillText('اضرب يا ذياب 🐺', 14, y(cycle.level + cycle.dir * TP[2]) - (cycle.dir === 1 ? 30 : -42));
+      }
     }
 
     // candles

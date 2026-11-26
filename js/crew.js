@@ -28,7 +28,7 @@ export function initCrew({ reduced }) {
     col[i] = COLORS[(rnd() * COLORS.length) | 0];
   }
 
-  let w = 0, h = 0, img = null, buf = null, ready = false;
+  let w = 0, h = 0, img = null, buf = null, ready = false, scale = 1;
   let progress = 0, running = false, raf = 0;
 
   function sample(drawFn) {
@@ -71,21 +71,23 @@ export function initCrew({ reduced }) {
       // crowd: dense band through the middle, thinning out
       const u = r(), v = r();
       sx[i] = u * w;
-      const spread = 0.42 * Math.pow(v, 0.7) * (r() < 0.5 ? -1 : 1);
-      sy[i] = h * (0.46 + spread);
+      const spread = 0.34 * Math.pow(v, 0.7) * (r() < 0.5 ? -1 : 1);
+      sy[i] = h * (0.55 + spread);
     }
 
-    try { await document.fonts.load('900 120px Cairo', 'الشريان'); await document.fonts.load('400 120px Anton', '56,044'); } catch (e) { /* fall back to system fonts */ }
-    const cy = h * 0.44;
+    try { await document.fonts.load('800 120px Alexandria', 'الشريان'); await document.fonts.load('400 120px Anton', '56,044'); } catch (e) { /* fall back to system fonts */ }
+    scale = dpr;
+    // the words sit in the middle band: captions are above, the list is below
+    const cy = h * 0.55;
     const numPts = sample((o) => {
-      const size = Math.min(w * 0.26, h * 0.42);
+      const size = Math.min(w * 0.24, h * 0.34);
       o.font = `400 ${size}px Anton, Impact, sans-serif`;
       o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#fff';
       o.fillText('56,044', w / 2, cy);
     });
     const namePts = sample((o) => {
-      const size = Math.min(w * 0.22, h * 0.4);
-      o.font = `900 ${size}px Cairo, sans-serif`;
+      const size = Math.min(w * 0.2, h * 0.32);
+      o.font = `800 ${size}px Alexandria, Cairo, sans-serif`;
       o.direction = 'rtl';
       o.textAlign = 'center'; o.textBaseline = 'middle'; o.fillStyle = '#fff';
       o.fillText('الشريان', w / 2, cy);
@@ -97,10 +99,30 @@ export function initCrew({ reduced }) {
     }
   }
 
+  // pointer: the crowd parts around the cursor and swirls a little
+  const mouse = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, s: 0, ts: 0 };
+  const stage = qs('.crew__stage');
+  stage.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    const r = canvas.getBoundingClientRect();
+    mouse.tx = (e.clientX - r.left) * scale;
+    mouse.ty = (e.clientY - r.top) * scale;
+    if (mouse.s < 0.01) { mouse.x = mouse.tx; mouse.y = mouse.ty; }
+    mouse.ts = 1;
+  });
+  stage.addEventListener('pointerleave', () => { mouse.ts = 0; });
+
   function render(time) {
     buf.fill(BG);
     const p = progress;
     const t = time * 0.001;
+    mouse.x += (mouse.tx - mouse.x) * 0.18;
+    mouse.y += (mouse.ty - mouse.y) * 0.18;
+    mouse.s += (mouse.ts - mouse.s) * 0.08;
+    const R = 150 * scale;
+    const R2 = R * R;
+    const ms = mouse.s;
+    const mx = mouse.x, my = mouse.y;
     // phase weights
     const toA = clamp((p - 0.12) / 0.33);   // scatter -> number
     const toB = clamp((p - 0.58) / 0.27);   // number -> name
@@ -115,8 +137,21 @@ export function initCrew({ reduced }) {
       const loose = 1 - Math.max(ea * (1 - eb), eb) * 0.92;
       x += Math.sin(t * 1.3 + ph[i]) * 2.4 * loose;
       yy += Math.cos(t * 1.1 + ph[i] * 1.7) * 2.4 * loose;
+      let c = col[i];
+      if (ms > 0.01) {
+        const dx = x - mx, dy = yy - my;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < R2 && d2 > 0.01) {
+          const d = Math.sqrt(d2);
+          const f = 1 - d / R;
+          const push = f * f * R * 0.6 * ms;
+          x += (dx / d) * push - (dy / d) * push * 0.35;
+          yy += (dy / d) * push + (dx / d) * push * 0.35;
+          if (f > 0.35) c = 0xff88d4f1;
+        }
+      }
       const xi = x | 0, yi = yy | 0;
-      if (xi >= 0 && xi < w && yi >= 0 && yi < h) buf[yi * w + xi] = col[i];
+      if (xi >= 0 && xi < w && yi >= 0 && yi < h) buf[yi * w + xi] = c;
     }
     ctx.putImageData(img, 0, 0);
   }
@@ -133,14 +168,22 @@ export function initCrew({ reduced }) {
   function showCap(i) {
     if (i === curCap) return;
     const gsap = window.gsap;
-    if (curCap >= 0) gsap.to(caps[curCap], { autoAlpha: 0, y: -16, duration: 0.3, ease: 'power2.in' });
-    gsap.fromTo(caps[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.45, delay: 0.15, ease: 'power3.out' });
+    // never two captions on screen at once: the old one is gone before the new one starts
+    gsap.killTweensOf(caps);
+    caps.forEach((c, k) => { if (k !== curCap && k !== i) gsap.set(c, { autoAlpha: 0 }); });
+    if (curCap >= 0) gsap.to(caps[curCap], { autoAlpha: 0, y: -14, duration: 0.18, ease: 'power2.in' });
+    gsap.fromTo(caps[i], { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.42, delay: curCap >= 0 ? 0.22 : 0, ease: 'power3.out' });
     curCap = i;
   }
 
-  layout();
+  // the 56,044 targets are built only when the section gets close, not at page load
+  let laidOut = false;
+  const lazy = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !laidOut) { laidOut = true; layout(); lazy.disconnect(); }
+  }, { rootMargin: '200% 0px' });
+  lazy.observe(canvas);
   let rt = 0;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 200); });
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (laidOut) layout(); }, 200); });
 
   const cues = [
     { p: 0.13, fn: () => sound.whoosh(0.9, 0.35) },

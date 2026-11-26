@@ -2,7 +2,7 @@
 // Pinned and scrubbed by scroll: line -> price leans -> wick does not count -> M1 close above = break
 // -> the falcon strikes the break -> the car runs the price path through TP1 (secure all), TP2, TP3.
 
-import { svgEl, qs, qsa, prng, clamp } from './util.js';
+import { svgEl, qs, qsa, prng, clamp, lerp } from './util.js';
 import { sound } from './audio.js';
 
 const LEVEL = 3870;
@@ -121,30 +121,49 @@ export function initMethod({ reduced }) {
   }, bg);
   const ring = svgEl('circle', { class: 'm-ring', cx: bx, cy: by, r: 10 }, bg);
 
-  // ---- run path (polyline through the closes from the break on)
+  // ---- run path: a smooth curve through the closes from the break on (Catmull-Rom as cubic Beziers)
   const pts = [];
   for (let i = BREAK_I; i < candles.length; i++) pts.push([cx(i), y(candles[i].c)]);
-  const segs = [];
-  let total = 0;
-  for (let i = 1; i < pts.length; i++) {
-    const len = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
-    segs.push({ a: pts[i - 1], b: pts[i], len, start: total });
-    total += len;
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0]} ${p2[1]}`;
   }
   const runPath = qs('#m-run');
-  runPath.setAttribute('d', 'M' + pts.map((p) => p.join(' ')).join(' L'));
+  runPath.setAttribute('d', d);
+  const total = runPath.getTotalLength();
   runPath.style.strokeDasharray = `${total}`;
   runPath.style.strokeDashoffset = `${total}`;
-  const lenAtIndex = (ci) => {
-    const k = ci - BREAK_I;
-    return k <= 0 ? 0 : segs[Math.min(k, segs.length) - 1].start + segs[Math.min(k, segs.length) - 1].len;
+  // Sample the curve once, so the car is placed from a table instead of DOM calls every frame.
+  const N = 720;
+  const LUT = new Float32Array((N + 1) * 2);
+  for (let k = 0; k <= N; k++) {
+    const q = runPath.getPointAtLength((total * k) / N);
+    LUT[k * 2] = q.x; LUT[k * 2 + 1] = q.y;
+  }
+  const at = (u) => {
+    const f = clamp(u) * N;
+    const i = Math.min(N - 1, Math.floor(f));
+    const t = f - i;
+    return [lerp(LUT[i * 2], LUT[i * 2 + 2], t), lerp(LUT[i * 2 + 1], LUT[i * 2 + 3], t)];
   };
-  const tpLen = TP_I.map(lenAtIndex);
+  const headingAt = (u) => {
+    const a = at(u - 0.008), b = at(u + 0.008);
+    return Math.atan2(b[1] - a[1], b[0] - a[0]);
+  };
+  const uAtX = (x) => {
+    for (let k = 0; k <= N; k++) if (LUT[k * 2] >= x - 0.5) return k / N;
+    return 1;
+  };
+  const candleU = candles.map((_, i) => (i > BREAK_I ? uAtX(cx(i)) : 0));
+  const tpU = TP_I.map((i) => uAtX(cx(i)));
 
   // ---- car (top-down, facing +x)
   const car = qs('#m-car');
   const carInner = svgEl('g', { transform: 'scale(1.75)' }, car);
-  [[-46, -8, -96], [-46, 0, -128], [-46, 8, -100]].forEach(([x1, yy, x2]) => svgEl('line', { class: 'car-speed', x1, x2, y1: yy, y2: yy }, carInner));
+  const speedLines = [[-46, -8, 50], [-46, 0, 82], [-46, 8, 54]].map(([x1, yy, len]) => ({ el: svgEl('line', { class: 'car-speed', x1, x2: x1 - len, y1: yy, y2: yy }, carInner), x1, len }));
   // wheels (rear ones wider), then body, cockpit, rear wing, tail lights
   [[16, -17], [16, 11], [-26, -19], [-26, 12]].forEach(([wx, wy], i) => svgEl('rect', { class: 'car-wheel', x: wx, y: wy, width: i < 2 ? 12 : 15, height: i < 2 ? 6 : 7, rx: 1.5 }, carInner));
   svgEl('path', { class: 'car-body', d: 'M38 0 C38 -4 33 -8 24 -9 L8 -12 L-20 -14 C-30 -14 -33 -10 -33 0 C-33 10 -30 14 -20 14 L8 12 L24 9 C33 8 38 4 38 0 Z' }, carInner);
@@ -169,6 +188,19 @@ export function initMethod({ reduced }) {
   svgEl('rect', { class: 'flag', x: fx, y: y(TPS[2]) - 92, width: 64, height: 40 }, flag);
   flag.style.opacity = 0;
 
+  // ---- "اضرب يا ذياب" next to the flag
+  const wolves = qs('#m-wolves');
+  const wolvesText = svgEl('text', { x: fx - 34, y: y(TPS[2]) - 34, 'text-anchor': 'end' }, wolves);
+  wolvesText.textContent = 'اضرب يا ذياب 🐺';
+  wolves.style.opacity = 0;
+
+  // ---- dust / smoke behind the car (a small pool of soft circles)
+  const dustG = qs('#m-dust');
+  const dr = prng(4242);
+  const dust = Array.from({ length: 70 }, () => ({ el: svgEl('circle', { r: 0, cx: -999, cy: -999 }, dustG), life: 0, max: 1, x: 0, y: 0, vx: 0, vy: 0, r: 0 }));
+  let dustNext = 0;
+  let spawnAcc = 0;
+
   // ---- captions
   const caps = qsa('#method-captions li');
   const summary = qs('#method-summary');
@@ -179,22 +211,31 @@ export function initMethod({ reduced }) {
   let lastTickAt = 0;
   const state = { run: 0, falcon: 0 };
 
-  function placeCar() {
-    const L = state.run * total;
-    let s = segs[0];
-    for (const sg of segs) { if (L >= sg.start) s = sg; }
-    const t = clamp((L - s.start) / s.len);
-    const px = s.a[0] + (s.b[0] - s.a[0]) * t;
-    const py = s.a[1] + (s.b[1] - s.a[1]) * t;
-    const ang = (Math.atan2(s.b[1] - s.a[1], s.b[0] - s.a[0]) * 180) / Math.PI;
-    car.setAttribute('transform', `translate(${px} ${py - 2}) rotate(${ang})`);
-    runPath.style.strokeDashoffset = `${total - L}`;
+  let shownRun = 0;
+  let targetRun = 0;
+  let shownAng = 0;
+  let carX = 0, carY = 0;
+  let raf = 0;
+  let lastT = 0;
+  let wolvesOn = false;
+
+  function render(u, speed, now) {
+    const [px, py] = at(u);
+    const target = headingAt(u);
+    let diff = target - shownAng;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    shownAng += diff * 0.25;
+    carX = px; carY = py;
+    const hum = Math.abs(speed) > 0.02 ? Math.sin(now * 0.06) * 0.7 : 0;
+    car.setAttribute('transform', `translate(${px.toFixed(2)} ${(py - 2 + hum).toFixed(2)}) rotate(${((shownAng * 180) / Math.PI).toFixed(2)})`);
+    const stretch = Math.min(1, Math.abs(speed) * 2.2);
+    speedLines.forEach((l) => { l.el.setAttribute('x2', l.x1 - l.len * (0.35 + stretch)); l.el.style.opacity = 0.2 + stretch * 0.8; });
+    runPath.style.strokeDashoffset = `${total * (1 - u)}`;
 
     // run candles appear as the car passes them
-    for (let i = BREAK_I + 1; i < candles.length; i++) {
-      candleEls[i].style.opacity = L >= lenAtIndex(i) - 1 ? 1 : 0;
-    }
-    const hits = tpLen.filter((l) => L >= l - 0.5).length;
+    for (let i = BREAK_I + 1; i < candles.length; i++) candleEls[i].style.opacity = u >= candleU[i] - 0.002 ? 1 : 0;
+    const hits = tpU.filter((h) => u >= h - 0.002).length;
     tpEls.forEach((g, i) => g.classList.toggle('is-hit', i < hits));
     const secured = hits >= 1;
     stopG.classList.toggle('is-secured', secured);
@@ -202,8 +243,75 @@ export function initMethod({ reduced }) {
     stopLine.setAttribute('y2', secured ? y(LEVEL) + 6 : y(SL));
     stopText.setAttribute('y', secured ? y(LEVEL) + 48 : y(SL) + 5);
     stopText.textContent = secured ? 'SL → الدخول' : `SL ${SL.toFixed(2)}`;
-    if (hits > lastHits) sound.target(hits);
+    if (hits > lastHits) {
+      sound.target(hits);
+      if (hits === 3) sound.wolf();
+    }
     lastHits = hits;
+    const wantWolves = hits >= 3;
+    if (wantWolves !== wolvesOn && window.gsap) {
+      wolvesOn = wantWolves;
+      if (wantWolves) window.gsap.fromTo(wolves, { opacity: 0, scale: 1.5, svgOrigin: `${fx - 34} ${y(TPS[2]) - 50}` }, { opacity: 1, scale: 1, duration: 0.5, ease: 'expo.out' });
+      else window.gsap.to(wolves, { opacity: 0, duration: 0.2 });
+    }
+  }
+
+  function spawnDust() {
+    const p = dust[dustNext];
+    dustNext = (dustNext + 1) % dust.length;
+    const c = Math.cos(shownAng), sn = Math.sin(shownAng);
+    const lat = (dr() - 0.5) * 34;
+    p.x = carX - c * 62 - sn * lat;
+    p.y = carY - sn * 62 + c * lat;
+    const back = 40 + dr() * 70;
+    p.vx = -c * back + (dr() - 0.5) * 30;
+    p.vy = -sn * back + (dr() - 0.5) * 30 - 10;
+    p.r = 5 + dr() * 7;
+    p.max = 0.6 + dr() * 0.7;
+    p.life = 1;
+  }
+
+  function updateDust(dt, speed) {
+    const moving = Math.abs(speed) > 0.015 && shownRun > 0.003 && shownRun < 0.997;
+    if (moving) spawnAcc += dt * Math.min(110, 30 + Math.abs(speed) * 260);
+    while (spawnAcc >= 1) { spawnAcc -= 1; spawnDust(); }
+    let alive = 0;
+    dust.forEach((p) => {
+      if (p.life <= 0) return;
+      p.life -= dt / p.max;
+      if (p.life <= 0) { p.el.setAttribute('cx', -999); return; }
+      alive++;
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      p.vx *= 0.96; p.vy = p.vy * 0.96 - 14 * dt;
+      p.r += 42 * dt;
+      p.el.setAttribute('cx', p.x.toFixed(1));
+      p.el.setAttribute('cy', p.y.toFixed(1));
+      p.el.setAttribute('r', p.r.toFixed(1));
+      p.el.setAttribute('opacity', (p.life * 0.85).toFixed(3));
+    });
+    return alive;
+  }
+
+  function loop(now) {
+    const dt = Math.min(0.05, lastT ? (now - lastT) / 1000 : 0.016);
+    lastT = now;
+    const prev = shownRun;
+    shownRun += (targetRun - shownRun) * (1 - Math.exp(-dt * 7));
+    if (Math.abs(targetRun - shownRun) < 0.0003) shownRun = targetRun;
+    const speed = (shownRun - prev) / dt;
+    render(shownRun, speed, now);
+    const alive = updateDust(dt, speed);
+    if (shownRun !== targetRun || alive > 0) raf = requestAnimationFrame(loop);
+    else { raf = 0; lastT = 0; }
+  }
+
+  function kick() {
+    if (!raf) raf = requestAnimationFrame(loop);
+  }
+
+  function placeCar() {
+    targetRun = state.run;
+    kick();
   }
 
   function placeFalcon() {
@@ -239,7 +347,7 @@ export function initMethod({ reduced }) {
   if (reduced || !window.gsap) {
     setVisibleCandles(BREAK_I);
     candleEls[BREAK_I].style.opacity = 1;
-    state.run = 1; placeCar();
+    shownRun = 1; render(1, 0, 0);
     car.style.opacity = 1;
     flag.style.opacity = 1;
     crack.style.strokeDasharray = '1'; crack.style.strokeDashoffset = '0';
@@ -305,7 +413,7 @@ export function initMethod({ reduced }) {
   // beat 4-6: the run
   tl.to(car, { opacity: 1, duration: 0.15 }, 5.45)
     .to(state, { run: 1, duration: 3.2, onUpdate: placeCar }, 5.5);
-  const tpTime = (k) => 5.5 + (tpLen[k] / total) * 3.2;
+  const tpTime = (k) => 5.5 + tpU[k] * 3.2;
   capIn(4, tpTime(0) - 0.05); capOut(4, tpTime(1) - 0.3);
   capIn(5, tpTime(1) - 0.05); capOut(5, tpTime(2) - 0.3);
   capIn(6, tpTime(2) - 0.05);
@@ -337,7 +445,6 @@ export function initMethod({ reduced }) {
     onUpdate: () => {
       const now = tl.time();
       if (now > prevT) cues.forEach((c) => { if (prevT < c.t && now >= c.t) c.fn(); });
-      if (now < prevT) lastHits = Math.min(lastHits, tpLen.filter((l) => state.run * total >= l - 0.5).length);
       prevT = now;
     },
   });
